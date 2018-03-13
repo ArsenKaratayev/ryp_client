@@ -1,0 +1,229 @@
+<div style="height: 100%; background-color: #e7eaec;">
+    <div style="width: 100%; background-color: #014d99;">
+        <div style="display: inline-block; width: 100%; padding-top: 10px; padding-bottom: 10px;">
+            <div style="float: left; width: 50%; padding-left: 20px;">
+                <div style="display: inline-block;">
+                    <div style="float: left;">
+                        <img src="/assets/images/logo.png" height="50px">
+                    </div>
+                    <div style="float: left; padding-left: 7px; padding-top: 5px;">
+                        <img src="/assets/images/name.png" height="40px">
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: 50%; text-align: right; padding-right: 25px; color: #ffffff; padding-top: 2px;">
+                <div>Юнусов Расул</div>
+                <div style="font-size: 13px; font-weight: 200; opacity: 0.7;">Кафедра КиПИ</div>
+            </div>
+        </div>
+    </div>
+    <!--PAGE HEADER-->
+    <h1 style="text-align:center">РАСПЕЧАТАТЬ 8 ЭКЗЕМПЛЯРОВ!!!</h1>
+    <h1 style="text-align:center">НЕ ЗАБЫТЬ ЗАКРЫТЬ ОКНА!!!</h1>
+    <div style="width: 100%; display: inline-block; background-color: #ffffff; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
+        <div style="float: left; padding-top: 17px; padding-bottom: 17px;">Создание РУП</div>
+        <div style="float: right; padding-top: 19px;">
+            <div class="select-style" style="width: 90px; font-size: 14px;">
+                <select [(ngModel)]="Year" (ngModelChange)="onChangeYear($event)">
+                    <option *ngFor="let y of Years" [value]="y">{{y}}</option>
+                </select>
+            </div>
+        </div>
+        <div style="float: right; font-size: 15px; margin-left: 40px; padding-right: 15px; padding-top: 22px;">Уч. год:</div>
+        <div style="float: right;">
+            <div class="select-style" style="width: 400px; font-size: 14px; padding-top: 19px;">
+                <select [(ngModel)]="Specialty" (ngModelChange)="onChangeSpecialty($event)">
+                    <option *ngFor="let s of Specialtys" [ngValue]="s">{{s.shifr}} - {{s.name}}</option>
+                </select>
+                <!-- {{Specialty | json}} -->
+            </div>
+        </div>
+        <div style="float: right; font-size: 15px; padding-right: 15px; padding-top: 22px;">Специальность:</div>
+    </div>
+    <!--PAGE CONTENT-->
+    <div *ngIf="update == false" style="width: 100%;">
+        <div style="width: 1280px; margin: 0 auto; padding-bottom: 50px;">
+
+            <!-- 1Box -->
+            <div class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px; padding-right: 25px; padding-left: 25px; padding-top: 15px; padding-bottom: 12px;">
+                <div style="display: inline-block; width: 100%; font-size: 16px; color: #014d99; border-bottom: 1px solid #e7eaec; padding-bottom: 12px;">
+                    <div *ngIf="Specialty != null" style="float: left;">{{Specialty.shifr}} - {{Specialty.name}}</div>
+                    <div *ngIf="Year != null" style="float: right;">{{Year}} уч. год</div>
+                </div>
+                <div style="display: inline-block; font-size: 13px; color: #838e9e; padding-top: 12px;">
+                    <div style="float: left; padding-right: 70px;">Форма обучения: <span style="color: #000000; padding-left: 5px;">Дневная</span></div>
+                    <div style="float: left; padding-right: 70px;">Срок обучения: <span style="color: #000000; padding-left: 5px;">4 года</span></div>
+                    <div style="float: left;">Акажемическая степень: <span style="color: #000000; padding-left: 5px;">Бакалавр технических наук</span></div>
+                </div>
+            </div>
+
+            <!-- 2Box -->
+            <div class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <div style="display: inline-block; width: 100%; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; font-size: 16px; color: #014d99;">
+                    <div style="float: left;">Количество кредитов за весь период обучения</div>
+                </div>
+                <div class="term-box-info-line">
+                    <div class="term-box-info-line-item" style="width: 594px;">ЦИКЛЫ ДИСЦИПЛИНЫ</div>
+                    <div class="term-box-info-line-item" style="width: 130px;">ОБЯЗАТЕЛЬНЫЕ</div>
+                    <div class="term-box-info-line-item" style="width: 130px;">ЭЛЕКТИВНЫЕ</div>
+                    <div class="term-box-info-line-item" style="width: 130px; border-right: none;">ВСЕГО</div>
+                </div>
+                <div style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec; margin: -5px 0px;">
+                        <div style="display: inline-block;">
+                            <div style="float: left; padding-right: 10px; padding-top: 9px;">
+                                <div style="background-color: #81C784; width: 12px; height: 12px; border-radius: 50%;"></div>
+                            </div>
+                            <div style="float: left; padding-top: 5px;">Цикл общеобразовательных дисциплин (О)</div>
+                        </div>
+                    </div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{GeneralCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">0</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{GeneralCredits}}</div>
+                </div>
+                <div style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec; margin: -5px 0px;">
+                        <div style="display: inline-block;">
+                            <div style="float: left; padding-right: 10px; padding-top: 9px;">
+                                <div style="background-color: #64B5F6; width: 12px; height: 12px; border-radius: 50%;"></div>
+                            </div>
+                            <div style="float: left; padding-top: 5px;">Цикл базовых дисциплин (Б)</div>
+                        </div>
+                    </div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{BaseCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">0</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{BaseCredits}}</div>
+                </div>
+                <div style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec; margin: -5px 0px;">
+                        <div style="display: inline-block;">
+                            <div style="float: left; padding-right: 10px; padding-top: 9px;">
+                                <div style="background-color: #7986CB; width: 12px; height: 12px; border-radius: 50%;"></div>
+                            </div>
+                            <div style="float: left; padding-top: 5px;">Цикл профилирующих дисциплин (П)</div>
+                        </div>
+                    </div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{ProfilingCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">0</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{ProfilingCredits}}</div>
+                </div>
+                <div style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec; margin: -5px 0px;">
+                        <div style="display: inline-block;">
+                            <div style="float: left; padding-right: 10px; padding-top: 9px;">
+                                <div style="background-color: #BA68C8; width: 12px; height: 12px; border-radius: 50%;"></div>
+                            </div>
+                            <div style="float: left; padding-top: 5px;">Профессиональная практика (ДВО)</div>
+                        </div>
+                    </div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{PractiseCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">—</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{PractiseCredits}}</div>
+                </div>
+                <div style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec; margin: -5px 0px;">
+                        <div style="display: inline-block;">
+                            <div style="float: left; padding-right: 10px; padding-top: 9px;">
+                                <div style="background-color: #FF7043; width: 12px; height: 12px; border-radius: 50%;"></div>
+                            </div>
+                            <div style="float: left; padding-top: 5px;">Итоговая аттестация (ИА)</div>
+                        </div>
+                    </div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{AttestationCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">—</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{AttestationCredits}}</div>
+                </div>
+                <div style="display: inline-block; font-size: 14px; background-color: #f2f9ff; font-weight: 600; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; margin: -5px 0px;">
+                    <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">Итого</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{TotalCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{0}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{TotalCredits}}</div>
+                </div>
+            </div>
+
+            <!-- 3Box -->
+            <div class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+
+                <!--NAV BUTTONS-->
+                <div style="display: inline-block; margin: -5px 0px;">
+                    <div *ngFor="let sb of SemBtns; let i = index" [attr.data-index]="i" style="float: left;">
+                        <div *ngIf="sb == semesterNumber">
+                            <button class="term-button-active" style="border-top-left-radius: 3px;">
+                                <div style="font-size: 26px; line-height: 1.3;">{{i+1}}</div>
+                                <div style="font-size: 11px;">СЕМЕСТР</div>
+                            </button>
+                        </div>
+                        <div *ngIf="sb != semesterNumber">
+                            <button (click)="setSemester(i+1)" class="term-button">
+                                <div style="font-size: 26px; line-height: 1.3;">{{i+1}}</div>
+                                <div style="font-size: 11px;">СЕМЕСТР</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--CONTENT-->
+                <div style="display: inline-block; width: 100%; font-size: 13px; border-bottom: 1px solid #e7eaec; border-top: 1px solid #dfe1e6;">
+                    <div style="float: left; width: 30px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">№</div>
+                    <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Код</div>
+                    <div style="float: left; width: 440px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Наименование дисциплины</div>
+                    <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Комп.</div>
+                    <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Кред.</div>
+                    <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">лк/лб/пр</div>
+                    <div style="float: left; width: 110px; padding-top: 12px; padding-bottom: 12px; text-align: center;">Пререквизит</div>
+                </div>
+                
+                <div *ngIf="semesterNumber != 0" style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
+                    <div *ngFor="let s of AllSubjects[semesterNumber - 1]; let i = index" [attr.data-index]="i" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
+                    1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -3px 0px;" [ngStyle]="{'background-color' : s.type.color }">
+                        <div style="float: left; width: 30px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
+                        <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
+                        <div style="float: left; width: 440px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code[0]}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
+                        <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
+                        <div *ngIf="s.prerequisites == null" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
+                        <div *ngIf="s.prerequisites != null" style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
+                        <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
+                            <button style="padding-top: 9px;" class="remove" (click)="deleteSubject(s)">
+                                <img src="/assets/images/remove-icon.png" width="12px">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--ОБЩЕЕ КОЛИЧЕСТВО-->
+                <div style="display: inline-block; width: 100%; font-size: 14px; border-top: 1px solid #e7eaec;">
+                    <div style="float: left; padding-top: 16px; padding-bottom: 16px; padding-left: 20px; font-weight: 300;">Всего кредитов за семестр: <span style="font-weight: 500; padding-left: 5px;">{{semesterCredits}}</span></div>
+                    <div style="float: right; padding-right: 20px; padding-top: 18px;">
+                        <button (click)="openDialog()" class="add-teacher-button" style="outline: none;">
+                            <div style="display: inline-block;">
+                                <div style="float: left;"><img src="/assets/images/add-icon.png" width="18px"></div>
+                                <div style="padding-left: 10px; float: left; padding-top: 1px;">ДОБАВИТЬ ДИСЦИПЛИНУ</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="margin-right: 145px;">
+                <!--CONTROL BUTTONS-->
+                <div style="display: inline-block; width: 100%; margin-top: 15px;">
+                    <div style="float: right;">
+                        <button class="control-button2">Печатать РУП</button>
+                    </div>
+                    <div style="float: right; margin-right: 15px;">
+                        <button (click)="goToPrint()" class="control-button">Свобдная таблица</button>
+                    </div>
+                    <div style="float: right; margin-right: 15px;">
+                        <button (click)="save()" class="control-button">Сохранить изменения</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="update == true">
+        <h1 style="text-align:center">Такой РУП уже создан!</h1>
+    </div>
+</div>

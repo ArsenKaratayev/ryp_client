@@ -1,0 +1,71 @@
+<style>
+    .ngdialog.ngdialog-theme-default .ngdialog-content {
+        padding: 0px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        border-radius: 4px;
+        top: 80px;
+        outline: none;
+    }
+
+    .ngdialog.ngdialog-theme-default {
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
+
+    .ngdialog-overlay {
+        background: rgba(0, 0, 0, .6);
+    }
+
+    .md-modal-box{
+        background-color: #ffffff;
+        border-radius: 3px;
+    }
+
+    .ngdialog.ngdialog-theme-default .ngdialog-close {
+        border: none;
+        background: 0 0;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        top: 0;
+        outline: none;
+    }
+
+    .ngdialog-overlay{
+        margin-right: 0;
+    }
+
+</style>
+
+<div>
+    <div style="background-color: #014d99; color: #ffffff; padding-top: 18px; padding-bottom: 18px; font-size: 16px; padding-left: 30px; padding-right: 30px; border-top-left-radius: 3px; border-top-right-radius: 3px; font-weight: 300;">Добавление дисциплины</div>
+    <div style="display: inline-block;">
+        <div style="float: left;">
+            <button class="term-button-active" style="width: 350px; padding-top: 17px; padding-bottom: 17px; font-weight: 400;">Основные дисциплины</button>
+        </div>
+        <div style="float: left;">
+            <button disabled class="term-button" style="width: 350px; padding-top: 17px; padding-bottom: 17px; font-weight: 400;">Элективные дисциплины</button>
+        </div>
+        <div style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
+            <div style="float: left; font-size: 14px; font-weight: 400; padding-top: 4px; padding-right: 20px; padding-left: 15px;">Выбрать дисциплину:</div>
+            <div style="float: left;">
+                <div class="select2" style="width: 460px; font-size: 14px;">
+                    <select [(ngModel)]="Subject">
+                        <option *ngFor="let s of Subjects" [ngValue]="s">{{s.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="height: 140px; background-color: #f4f5f6; border-top: 1px solid #e7eaec;">
+            <div style="color: #afb8c5; padding-top: 60px; font-weight: 300; font-size: 16px; text-align: center;">Описание дисциплины отсутсвует</div>
+        </div> -->
+    </div>
+    <div style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #e7eaec; padding: 15px;">
+        <div style="float: right;">
+            <button (click)="closeDialog()" class="add-discipline-button">Добавить</button>
+        </div>
+        <div style="float: right; margin-right: 15px;">
+            <button (click)="cancelDialog()" class="cancel-button">Отменить</button>
+        </div>
+    </div>
+</div>
