@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SubjectHours, SubjectType, Subject } from './Subject';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
+import { AddSubjectDialog } from './createRyp.component';
 
 @Component({
   selector: 'createSubject',
@@ -21,6 +22,19 @@ export class CreateSubjectComponent implements OnInit {
   Prerequisites : Subject[] = [];
   Subjects : Subject[] = [];
 
+  openDialog(): void {
+    let dialogRef = this.dialog.open(AddSubjectDialog, {    
+        // height: '400px',
+        width: '750px',
+        data: { Subjects : this.Subjects }
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+        if (result != null) {
+            this.addSubject(result);
+        }
+    });
+}
 
   loadSubjects() : void {
     this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
@@ -48,7 +62,7 @@ export class CreateSubjectComponent implements OnInit {
     } else {
         this.http
         .post('http://localhost:5001/api/subjects', 
-            new Subject(this.Name, new SubjectType(this.Type), new SubjectHours(this.Lec, this.Lab, this.Pr), this.Shifr))
+            new Subject(this.Name, new SubjectType(this.Type), new SubjectHours(this.Lec, this.Lab, this.Pr), this.Shifr, this.Prerequisites))
         .subscribe(() => {
           console.log('here!');
         })

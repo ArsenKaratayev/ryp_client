@@ -22,8 +22,11 @@
             <div style="margin-top: 25px; margin-left: 147px; margin-right: 147px; font-size: 15px;">
                 <a href="/createSubject">Добвить предмет</a>
             </div>
-            <div class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
-                <h2>Список предметов</h2>
+            <div style="margin-top: 25px; margin-left: 147px; margin-right: 147px; font-size: 15px;">
+                <a href="/createElective">Добвить элективную группу</a>
+            </div>
+            <div *ngIf="ReqEl==true" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <h2 (click)="changeReqEl()" class="choice">Список предметов</h2>
                 <div style="display: inline-block; width: 100%; font-size: 13px; border-bottom: 1px solid #e7eaec; border-top: 1px solid #dfe1e6;">
                     <div style="float: left; width: 30px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">№</div>
                     <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Код</div>
@@ -35,7 +38,7 @@
                     <div style="float: left; width: 70px; padding-top: 12px; padding-bottom: 12px; text-align: center;">&nbsp;&nbsp;&nbsp;Уд.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Обн.</div>
                 </div>
 
-                <div *ngIf="semesterNumber != 0" style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
+                <div style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
                     <div *ngFor="let s of Subjects; let i = index" [attr.data-index]="i" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
                     1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -3px 0px;" [ngStyle]="{'background-color' : s.type.color }">
                         <div style="float: left; width: 30px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
@@ -59,6 +62,55 @@
                     </div>
                 </div>
             </div>
+
+
+            <div *ngIf="ReqEl==false" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <h2 (click)="changeReqEl()" class="choice">Список элективных групп</h2>
+                <div style="display: inline-block; width: 100%; font-size: 13px; border-bottom: 1px solid #e7eaec; border-top: 1px solid #dfe1e6;">
+                    <div style="float: left; width: 30px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">№</div>
+                    <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Код</div>
+                    <div style="float: left; width: 440px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Наименование дисциплины</div>
+                    <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Комп.</div>
+                    <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Кред.</div>
+                    <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">лк/лб/пр</div>
+                    <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Пререквизит</div>
+                    <div style="float: left; width: 70px; padding-top: 12px; padding-bottom: 12px; text-align: center;">&nbsp;&nbsp;&nbsp;Уд.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Обн.</div>
+                </div>
+
+                <div style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
+                    <div *ngFor="let s of Electives; let i = index" [attr.data-index]="i" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
+                    1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -3px 0px;" [ngStyle]="{'background-color' : s.type.color }">
+                        <div style="float: left; width: 30px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
+                        <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
+                        <div style="float: left; width: 440px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code[0]}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
+                        <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
+                        <div *ngIf="s.prerequisites == null" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
+                        <div *ngIf="s.prerequisites != null" style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
+                        <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
+                            <button style="padding-top: 9px;" class="remove" (click)="deleteElective(s)">
+                                <img src="/assets/images/remove-icon.png" width="12px">
+                            </button>
+                        </div>
+                        <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
+                            <button style="padding-top: 9px;" class="remove" (click)="updateElective(s)">
+                                <img src="/assets/images/add-icon.png" width="12px">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 <!-- </div> -->
+<style>
+    .choice {
+        color: #000000;
+    }
+
+    .choice:hover{
+        color: #435f85;
+        cursor: pointer;
+    }
+</style>

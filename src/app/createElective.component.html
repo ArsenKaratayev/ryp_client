@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>Новая элективная группа</h2>
+    <div class="form-group">
+        <div>Название</div>
+        <input [(ngModel)]="Name" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <div>Шифр</div>
+        <input [(ngModel)]="Shifr" type="text" class="form-control">
+    </div>
+    <div *ngFor="let e of Electives">
+        {{e.name}}
+        <button class="remove" (click)="deleteSubject(p)">
+            <img src="/assets/images/remove-icon.png" width="12px">
+        </button>
+    </div>
+    <button (click)="openDialog()" class="add-teacher-button" style="outline: none;">
+        <div style="display: inline-block;">
+            <div style="float: left;"><img src="/assets/images/add-icon.png" width="18px"></div>
+            <div style="padding-left: 10px; float: left; padding-top: 1px;">ДОБАВИТЬ ЭЛЕКТИВ</div>
+        </div>
+    </button>
+    <br><br>
+    <div class="form-group">
+        <input (click)="save()" type="submit" value="Сохранить" class="btn btn-default">
+        <a href="/subjectList" class="btn btn-default">К списку</a>
+    </div>
+</div>

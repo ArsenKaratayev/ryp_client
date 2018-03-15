@@ -5,6 +5,7 @@ import { SubjectHours, SubjectType, Subject } from './Subject';
 import { Router } from '@angular/router';
 import { Specialty } from './Specialty';
 import { Ryp } from './Ryp';
+import { ElectiveGroup } from './ElectiveGroup';
 
 @Component({
   selector: 'createRyp',
@@ -13,12 +14,12 @@ import { Ryp } from './Ryp';
 })
 export class CreateRypComponent implements OnInit {
     constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {  }
-    
+
     openDialog(): void {
         let dialogRef = this.dialog.open(AddSubjectDialog, {    
-            // height: '400px',
             width: '750px',
-            data: { Subjects : this.Subjects }
+            height: '320px',
+            data: { Subjects : this.Subjects, Electives : this.Electives }
         });
         
         dialogRef.afterClosed().subscribe(result => {
@@ -29,7 +30,10 @@ export class CreateRypComponent implements OnInit {
     }
     
     Ryps : Ryp[] = [];
-    AllSubjects : Subject[][] = [[], [], [], [], [], [], [], []];
+    AllSubjects : any[][] = [[], [], [], [], [], [], [], []];
+    SubjectsForSave : Subject[][] = [[], [], [], [], [], [], [], []];
+    ElectivesForSave : ElectiveGroup[][] = [[], [], [], [], [], [], [], []];
+    Electives : ElectiveGroup[] = [];
     Subjects : Subject[] = [];
     ConstSubjects : Subject[] = [];
     Specialtys : Specialty[] = [];
@@ -52,7 +56,7 @@ export class CreateRypComponent implements OnInit {
         this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
             this.ConstSubjects = data;
             this.Subjects = data;       
-            this.loadSpecialtys();
+            this.loadElectives();
         })
     }
     loadSpecialtys() : void {
@@ -64,6 +68,12 @@ export class CreateRypComponent implements OnInit {
             }
         })
     }
+    loadElectives() : void {
+        this.http.get('http://localhost:5001/api/electivegroups').subscribe((data : ElectiveGroup[]) => { 
+            this.Electives = data;
+            this.loadSpecialtys();
+        })
+    }
     loadRyps() : void {
         this.http.get('http://localhost:5001/api/ryps').subscribe((data : Ryp[]) => {
             this.Ryps = data;
@@ -72,43 +82,9 @@ export class CreateRypComponent implements OnInit {
     }
     setRyp() : void {
         this.update = false;
-        // this.AllSubjects = [[], [], [], [], [], [], [], []];
-        // this.BaseCredits = 0;
-        // this.ProfilingCredits = 0;
-        // this.GeneralCredits = 0;
-        // this.TotalCredits = 9;
-        // this.semesterCredits = 0;
         this.Subjects = this.ConstSubjects;
         for (let k = 0; k < this.Ryps.length; k++) {
             if (this.Ryps[k].specialty.id == this.Specialty.id && this.Ryps[k].year == this.Year) {
-                // var arr = this.Ryps[k].subjects;
-                // this.id = this.Ryps[k].id;
-                // var a = [];
-                // var b = [];
-                // for (let i = 0; i < arr.length; i++) {
-                //     for (let j = 0; j < arr[i].length; j++) {
-                //         if (this.Subjects.map((el)=>el.id).indexOf(arr[i][j].id) != -1) {
-                //             a.push(arr[i][j].id);
-                //             console.log(arr[i][j].id)
-                //             if (arr[i][j].type.name == "Базовая") { 
-                //                 this.BaseCredits += arr[i][j].credits; 
-                //             } else if (arr[i][j].type.name == "Профилирующая") {
-                //                 this.ProfilingCredits += arr[i][j].credits;
-                //             } else if (arr[i][j].type.name == "Общеобразовательная") {
-                //                 this.GeneralCredits += arr[i][j].credits;
-                //             }
-                //             this.TotalCredits += arr[i][j].credits;
-                //             this.semesterCredits += arr[i][j].credits;
-                //         }
-                //     }
-                // }
-                // for (let i = 0; i < this.Subjects.length; i++) {
-                //     if (this.Subjects.map((el)=>el.id).indexOf(a[i]) == -1) {
-                //         b.push(this.Subjects[i]);
-                //     }
-                // }
-                // this.Subjects = b;
-                // this.AllSubjects = arr;
                 this.update = true;
                 this.setSemester(1);
             }
@@ -133,16 +109,8 @@ export class CreateRypComponent implements OnInit {
             this.semesterCredits += this.AllSubjects[this.semesterNumber - 1][i].credits;
         }
     }
-    addSubject(s : Subject) : void {
+    addSubject(s : any) : void {
         this.AllSubjects[this.semesterNumber - 1].push(s);
-        // var arr = [];
-        // for (let i = 0; i < this.Subjects.length; i++) {
-        //     if (s.id != this.Subjects[i].id) {
-        //         arr.push(this.Subjects[i])
-        //     }
-        // }
-        // this.Subjects = arr;
-        this.Subjects.splice(this.Subjects.indexOf(s), 1);
         if (s.type.name == "Базовая") { 
             this.BaseCredits += s.credits; 
         } else if (s.type.name == "Профилирующая") {
@@ -152,18 +120,16 @@ export class CreateRypComponent implements OnInit {
         }
         this.TotalCredits += s.credits;
         this.semesterCredits += s.credits;
-        
+        if (s.subjects == undefined) {
+            this.SubjectsForSave[this.semesterNumber - 1].push(s);
+            this.Subjects.splice(this.Subjects.indexOf(s), 1);
+        } else {
+            this.ElectivesForSave[this.semesterNumber - 1].push(s);
+            this.Electives.splice(this.Subjects.indexOf(s), 1);
+        }
     }
-    deleteSubject(s : Subject) : void {
+    deleteSubject(s : any) : void {
         this.AllSubjects[this.semesterNumber - 1].splice(this.AllSubjects[this.semesterNumber - 1].indexOf(s), 1);
-        // var arr = [];
-        // for (let i = 0; i < this.AllSubjects[this.semesterNumber - 1].length; i++) {
-        //     if (s.id != this.AllSubjects[this.semesterNumber - 1][i].id) {
-        //         arr.push(this.AllSubjects[this.semesterNumber - 1][i])
-        //     }
-        // }
-        // this.AllSubjects[this.semesterNumber - 1] = arr;
-        this.Subjects.push(s);
         if (s.type.name == "Базовая") { 
             this.BaseCredits -= s.credits; 
         } else if (s.type.name == "Профилирующая") {
@@ -173,10 +139,17 @@ export class CreateRypComponent implements OnInit {
         }
         this.TotalCredits -= s.credits;
         this.semesterCredits -= s.credits;
+        if (s.subjects == undefined) {
+            this.SubjectsForSave[this.semesterNumber - 1].splice(this.SubjectsForSave[this.semesterNumber - 1].indexOf(s), 1);
+            this.Subjects.push(s);
+        } else {
+            this.ElectivesForSave[this.semesterNumber - 1].splice(this.ElectivesForSave[this.semesterNumber - 1].indexOf(s), 1);
+            this.Electives.push(s);
+        }
     }
     goToPrint() : void {
         if (this.Specialty != null && this.Year != null && this.AllSubjects != null) {
-            var ryp = new Ryp(this.Specialty, this.Year, this.AllSubjects);
+            var ryp = new Ryp(this.Specialty, this.Year, this.AllSubjects, this.ElectivesForSave);
             localStorage.setItem('ryp', JSON.stringify(ryp));
             var creditsInfo = [this.GeneralCredits, this.BaseCredits, this.ProfilingCredits];
             localStorage.setItem('creditsInfo', JSON.stringify(creditsInfo));
@@ -185,22 +158,13 @@ export class CreateRypComponent implements OnInit {
     }
     save() : void {
         console.log(this.update)
-        var ryp = new Ryp(this.Specialty, this.Year, this.AllSubjects);
+        var ryp = new Ryp(this.Specialty, this.Year, this.SubjectsForSave, this.ElectivesForSave);
         console.log(ryp)
-        // if (this.update) {
-        //     ryp.id = this.id;
-        //     this.http
-        //         .put('http://localhost:5001/api/ryps/' + this.id, ryp)
-        //         .subscribe(() => {
-        //             console.log('here!');
-        //     })
-        // } else {
-            this.http
-                .post('http://localhost:5001/api/ryps', ryp)
-                .subscribe(() => {
-                    console.log('here!');
-            })
-        // }
+        this.http
+            .post('http://localhost:5001/api/ryps', ryp)
+            .subscribe(() => {
+                console.log('here!');
+        })
         // window.location.href = "http://localhost:4200/createRyp";
     }
 }
@@ -215,11 +179,26 @@ export class AddSubjectDialog {
 
     Subject : Subject;
     Subjects : Subject[] = this.data.Subjects;
+    Elective : ElectiveGroup;
+    Electives : ElectiveGroup[] = this.data.Electives;
+    ReqEl : boolean = true;
+
+    changeToReq() : void {
+        this.ReqEl = true;
+        this.Elective = undefined;
+    }
+    changeToEl() : void {
+        this.ReqEl = false;
+        this.Subject = undefined;
+    }
 
     closeDialog() : void {
-        this.dialogRef.close(this.Subject);
-    }
-    cancelDialog() : void {
-        this.dialogRef.close();
+        if (this.Subject != undefined && this.Elective == undefined) {
+            this.dialogRef.close(this.Subject);
+        } else if (this.Elective != undefined && this.Subject == undefined) {
+            this.dialogRef.close(this.Elective);
+        } else {
+            this.dialogRef.close();
+        }
     }
 }

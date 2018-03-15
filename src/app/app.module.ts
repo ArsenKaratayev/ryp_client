@@ -10,23 +10,29 @@ import { MatDialogModule, MatDialogConfig, MAT_DIALOG_DEFAULT_OPTIONS, PageEvent
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PrintRypComponent } from './printRyp.component';
 import { SubjectListComponent } from './subjectList.component';
+import { CreateElectiveComponent } from './createElective.component';
+import { CreateSpecialtyComponent } from './createSpecialty.component';
 
 const appRoutes: Routes = [
   { path : '', component : CreateRypComponent },
   { path : 'createSubject', component : CreateSubjectComponent },
-  { path : 'addSubject', component :  AddSubjectDialog},
+  { path : 'createSpecialty', component : CreateSpecialtyComponent },
+  { path : 'addSubject', component :  AddSubjectDialog },
   { path : 'print', component : PrintRypComponent },
-  { path : 'subjectList', component : SubjectListComponent }
+  { path : 'subjectList', component : SubjectListComponent },
+  { path : 'createElective', component : CreateElectiveComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateSubjectComponent,
+    CreateElectiveComponent,
     CreateRypComponent,
     AddSubjectDialog,
     PrintRypComponent,
-    SubjectListComponent
+    SubjectListComponent,
+    CreateSpecialtyComponent
   ],
   imports: [
     BrowserModule, 

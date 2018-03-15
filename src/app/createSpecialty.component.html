@@ -1,0 +1,15 @@
+<div class="container">
+    <h2>Новая специальность</h2>
+    <div class="form-group">
+        <div>Название</div>
+        <input [(ngModel)]="Name" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <div>Шифр</div>
+        <input [(ngModel)]="Shifr" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <input (click)="save()" type="submit" value="Сохранить" class="btn btn-default">
+        <a href="/specialtyList" class="btn btn-default">К списку</a>
+    </div>
+</div>

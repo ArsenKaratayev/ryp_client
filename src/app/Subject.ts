@@ -37,13 +37,13 @@ export class Subject {
     shifr : string;
     prerequisites : Subject[];
 
-    constructor(name : string, type : SubjectType, hours : SubjectHours, shifr : string) {
+    constructor(name : string, type : SubjectType, hours : SubjectHours, shifr : string, pre : Subject[]) {
         this.id;
         this.name = name;
         this.type = type;
         this.hours = hours;
         this.credits = hours.lec+hours.lab+hours.pr;
         this.shifr = shifr;
-        this.prerequisites;
+        this.prerequisites = pre;
     }
 }
