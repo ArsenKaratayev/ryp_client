@@ -1,0 +1,24 @@
+<div style="width: 100%;">
+    <div style="width: 1024px; margin: 0 auto; padding-bottom: 50px;">
+        <div style="margin-top: 25px; margin-right: 147px; font-size: 15px;">
+            <a href="/createSpecialty">Добавить специальность</a>
+        </div>
+        <h2>Список специальностей</h2>
+        <table class="table">
+            <tr>
+                <th>Шифр</th>
+                <th>Название</th>
+                <th></th>
+            </tr>
+            
+            <tr *ngFor="let s of Specialtys">
+                <td>{{s.shifr}}</td>
+                <td>{{s.name}}</td>
+                <td>
+                    <a>Изменить</a> |
+                    <a>Удалить</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

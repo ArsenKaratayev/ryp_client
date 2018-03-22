@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Specialty } from './Specialty';
 import { Ryp } from './Ryp';
 import { ElectiveGroup } from './ElectiveGroup';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'createRyp',
@@ -13,18 +14,19 @@ import { ElectiveGroup } from './ElectiveGroup';
   styleUrls: ['./app.component.css']
 })
 export class CreateRypComponent implements OnInit {
-    constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {  }
+    constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private US : UserService) {  }
 
     openDialog(): void {
         let dialogRef = this.dialog.open(AddSubjectDialog, {    
             width: '750px',
-            height: '320px',
-            data: { Subjects : this.Subjects, Electives : this.Electives }
+            data: { Subjects : this.Subjects, Electives : this.Electives, type : true, PreSubs : this.SubjectsForSave, Sem : this.semesterNumber }
         });
         
         dialogRef.afterClosed().subscribe(result => {
             if (result != null) {
-                this.addSubject(result);
+                for (let i = 0; i < result.length; i++) {
+                    this.addSubject(result[i]);
+                }
             }
         });
     }
@@ -46,11 +48,16 @@ export class CreateRypComponent implements OnInit {
     PractiseCredits : number = 6;
     AttestationCredits : number = 3;
     TotalCredits : number = 9;
+    GeneralElCredits : number = 0;
+    BaseElCredits : number = 0;
+    ProfilingElCredits : number = 0;
+    TotalElCredits : number = 0;
     SemBtns : number[] = [1, 2, 3, 4, 5, 6, 7, 8];
     semesterNumber : number = 1;
     semesterCredits : number = 0;
     update : boolean = false;
-    id : number;
+    Pre : Subject[] = [];
+    showPre : boolean = false;
 
     loadSubjects() : void {
         this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
@@ -110,62 +117,91 @@ export class CreateRypComponent implements OnInit {
         }
     }
     addSubject(s : any) : void {
+        console.log(s)
         this.AllSubjects[this.semesterNumber - 1].push(s);
-        if (s.type.name == "Базовая") { 
-            this.BaseCredits += s.credits; 
-        } else if (s.type.name == "Профилирующая") {
-            this.ProfilingCredits += s.credits;
-        } else if (s.type.name == "Общеобразовательная") {
-            this.GeneralCredits += s.credits;
-        }
-        this.TotalCredits += s.credits;
-        this.semesterCredits += s.credits;
         if (s.subjects == undefined) {
             this.SubjectsForSave[this.semesterNumber - 1].push(s);
             this.Subjects.splice(this.Subjects.indexOf(s), 1);
+            if (s.type.name == "Базовая") { 
+                this.BaseCredits += s.credits; 
+            } else if (s.type.name == "Профилирующая") {
+                this.ProfilingCredits += s.credits;
+            } else if (s.type.name == "Общеобразовательная") {
+                this.GeneralCredits += s.credits;
+            }
+            this.TotalCredits += s.credits;
+            this.semesterCredits += s.credits;
         } else {
             this.ElectivesForSave[this.semesterNumber - 1].push(s);
-            this.Electives.splice(this.Subjects.indexOf(s), 1);
+            this.Electives.splice(this.Electives.indexOf(s), 1);
+            if (s.type.name == "Базовая") { 
+                this.BaseElCredits += s.credits; 
+            } else if (s.type.name == "Профилирующая") {
+                this.ProfilingElCredits += s.credits;
+            } else if (s.type.name == "Общеобразовательная") {
+                this.GeneralElCredits += s.credits;
+            }
+            this.TotalElCredits += s.credits;
+            this.semesterCredits += s.credits;
         }
     }
     deleteSubject(s : any) : void {
         this.AllSubjects[this.semesterNumber - 1].splice(this.AllSubjects[this.semesterNumber - 1].indexOf(s), 1);
-        if (s.type.name == "Базовая") { 
-            this.BaseCredits -= s.credits; 
-        } else if (s.type.name == "Профилирующая") {
-            this.ProfilingCredits -= s.credits;
-        } else if (s.type.name == "Общеобразовательная") {
-            this.GeneralCredits -= s.credits;
-        }
-        this.TotalCredits -= s.credits;
-        this.semesterCredits -= s.credits;
         if (s.subjects == undefined) {
             this.SubjectsForSave[this.semesterNumber - 1].splice(this.SubjectsForSave[this.semesterNumber - 1].indexOf(s), 1);
             this.Subjects.push(s);
+            if (s.type.name == "Базовая") { 
+                this.BaseCredits -= s.credits; 
+            } else if (s.type.name == "Профилирующая") {
+                this.ProfilingCredits -= s.credits;
+            } else if (s.type.name == "Общеобразовательная") {
+                this.GeneralCredits -= s.credits;
+            }
+            this.TotalCredits -= s.credits;
+            this.semesterCredits -= s.credits;
         } else {
             this.ElectivesForSave[this.semesterNumber - 1].splice(this.ElectivesForSave[this.semesterNumber - 1].indexOf(s), 1);
             this.Electives.push(s);
+            if (s.type.name == "Базовая") { 
+                this.BaseElCredits -= s.credits; 
+            } else if (s.type.name == "Профилирующая") {
+                this.ProfilingElCredits -= s.credits;
+            } else if (s.type.name == "Общеобразовательная") {
+                this.GeneralElCredits -= s.credits;
+            }
+            this.TotalElCredits -= s.credits;
+            this.semesterCredits -= s.credits;
         }
+    }
+    mouseEnter(pre : Subject[]) : void {
+        this.showPre = true;
+        this.Pre = pre;
+      }
+    
+    mouseLeave() : void {
+        this.showPre = false;
     }
     goToPrint() : void {
         if (this.Specialty != null && this.Year != null && this.AllSubjects != null) {
-            var ryp = new Ryp(this.Specialty, this.Year, this.AllSubjects, this.ElectivesForSave);
+            var ryp = new Ryp(this.Specialty, this.Year, this.AllSubjects, this.ElectivesForSave, this.US.getUser());
             localStorage.setItem('ryp', JSON.stringify(ryp));
-            var creditsInfo = [this.GeneralCredits, this.BaseCredits, this.ProfilingCredits];
+            var creditsInfo = [this.GeneralCredits, this.BaseCredits, this.ProfilingCredits, this.TotalCredits];
             localStorage.setItem('creditsInfo', JSON.stringify(creditsInfo));
+            var elCreditsInfo = [this.GeneralElCredits, this.BaseElCredits, this.ProfilingElCredits, this.TotalElCredits];
+            localStorage.setItem('elCreditsInfo', JSON.stringify(elCreditsInfo));
             this.router.navigate(['/print']);
         }
     }
     save() : void {
         console.log(this.update)
-        var ryp = new Ryp(this.Specialty, this.Year, this.SubjectsForSave, this.ElectivesForSave);
+        var ryp = new Ryp(this.Specialty, this.Year, this.SubjectsForSave, this.ElectivesForSave, this.US.getUser());
         console.log(ryp)
         this.http
             .post('http://localhost:5001/api/ryps', ryp)
             .subscribe(() => {
                 console.log('here!');
         })
-        // window.location.href = "http://localhost:4200/createRyp";
+        window.location.href = "http://localhost:4200";
     }
 }
 
@@ -174,31 +210,107 @@ export class CreateRypComponent implements OnInit {
     selector: 'addSubject',
     templateUrl: 'addSubject.dialog.html',
 })
-export class AddSubjectDialog {
+export class AddSubjectDialog implements OnInit {
     constructor(public dialogRef: MatDialogRef<AddSubjectDialog>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
+    ExportSubjects : Subject[] = [];
     Subject : Subject;
     Subjects : Subject[] = this.data.Subjects;
     Elective : ElectiveGroup;
     Electives : ElectiveGroup[] = this.data.Electives;
     ReqEl : boolean = true;
+    Type : boolean = this.data.type;
+    Export : any[] = [];
+    PreSubs : Subject[][] = this.data.PreSubs;
+    semNum : number = this.data.Sem;
+
+    ngOnInit(): void {
+        if (this.Type) {
+            var arr = [];
+            for (let i = 0; i < this.Subjects.length; i++) {
+                if (this.Subjects[i].prerequisites.length > 0) {
+                    var k = 0;
+                    for (let j = 0; j < this.PreSubs.length; j++) {
+                        if (j + 1 < this.semNum) {
+                            for (let k = 0; k < this.PreSubs[j].length; k++) {
+                                if (this.Subjects[i].prerequisites.map((el)=>el.id).indexOf(this.PreSubs[j][k].id) != -1) {
+                                    k++;
+                                    if (this.Subjects[i].prerequisites.length == k) {
+                                        arr.push(this.Subjects[i])
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                } else {
+                    arr.push(this.Subjects[i])
+                }
+            }
+            this.Subjects = arr;
+
+            var arr = [];
+            for (let i = 0; i < this.Electives.length; i++) {
+                if (this.Electives[i].prerequisites.length > 0) {
+                    var k = 0;
+                    for (let j = 0; j < this.PreSubs.length; j++) {
+                        if (j + 1 < this.semNum) {
+                            for (let k = 0; k < this.PreSubs[j].length; k++) {
+                                if (this.Electives[i].prerequisites.map((el)=>el.id).indexOf(this.PreSubs[j][k].id) != -1) {
+                                    k++;
+                                    if (this.Electives[i].prerequisites.length == k) {
+                                        arr.push(this.Electives[i])
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                } else {
+                    arr.push(this.Electives[i])
+                }
+            }
+            this.Electives = arr;
+        }   
+    }
+
+    addExport(s : any) : void {
+        this.Export.push(s);
+        if (s.subjects == undefined) {
+            this.Subjects.splice(this.Subjects.indexOf(s), 1);
+        } else {
+            this.Electives.splice(this.Electives.indexOf(s), 1);
+        }
+    }
+
+    deleteExport(s : any) : void {
+        this.Export.splice(this.Export.indexOf(s), 1);
+        if (s.subjects == undefined) {
+            this.Subjects.push(s);
+        } else {
+            this.Electives.push(s);
+        }
+    }
 
     changeToReq() : void {
         this.ReqEl = true;
-        this.Elective = undefined;
     }
     changeToEl() : void {
         this.ReqEl = false;
-        this.Subject = undefined;
     }
 
     closeDialog() : void {
-        if (this.Subject != undefined && this.Elective == undefined) {
-            this.dialogRef.close(this.Subject);
-        } else if (this.Elective != undefined && this.Subject == undefined) {
-            this.dialogRef.close(this.Elective);
+        if (this.Type) {
+            this.dialogRef.close(this.Export);
         } else {
-            this.dialogRef.close();
+            if (this.Subject != undefined) {
+                this.dialogRef.close(this.Subject);
+            } else {
+                this.dialogRef.close();
+            }
         }
+    }
+    otm() : void {
+        this.dialogRef.close();
     }
 }

@@ -17,6 +17,8 @@ export class SubjectListComponent implements OnInit {
   Subjects : Subject[] = [];
   Electives : ElectiveGroup[] = [];
   ReqEl : boolean = true;
+  Pre : Subject[] = [];
+  showPre : boolean = false;
 
   loadSubjects() : void {
     this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
@@ -31,21 +33,17 @@ export class SubjectListComponent implements OnInit {
     })
   }
 
-  // transformElectiveToSubject(e : ElectiveGroup) : Subject {
-  //   var pre = [];
-  //   for (let i = 0; i < e.subjects.length; i++) {
-  //     if (e.subjects[i].prerequisites !=  null) {
-  //       pre.push(e.subjects[i].prerequisites);
-  //       continue;
-  //     }
-  //   }
-  //   var s = new Subject(e.name, e.type, new SubjectHours(0, 0, e.credits), e.shifr, pre);
-  //   s.id = e.id;
-  //   return s;
-  // }
-
   changeReqEl() : void {
     this.ReqEl = !this.ReqEl;
+  }
+
+  mouseEnter(pre : Subject[]) : void {
+    this.showPre = true;
+    this.Pre = pre;
+  }
+
+  mouseLeave() : void {
+    this.showPre = false;
   }
 
   ngOnInit() : void {

@@ -18,12 +18,17 @@ export class PrintRypComponent implements OnInit {
     odd : Subject[][];
     semestersCredits : number[] = [0, 0, 0, 0, 0, 0, 0, 0];
     creditsInfo : number[];
+    elCreditsInfo : number[];
     GeneralCredits : number = 0;
     BaseCredits : number = 0;
     ProfilingCredits : number = 0;
     PractiseCredits : number = 6;
     AttestationCredits : number = 3;
-    TotalCredits : number = 9;
+    TotalCredits : number = 0;
+    GeneralElCredits : number = 0;
+    BaseElCredits : number = 0;
+    ProfilingElCredits : number = 0;
+    TotalElCredits : number = 0;
 
     ngOnInit(): void {
         if (localStorage.getItem('ryp') != null) {
@@ -41,7 +46,13 @@ export class PrintRypComponent implements OnInit {
             this.GeneralCredits = this.creditsInfo[0];
             this.BaseCredits = this.creditsInfo[1];
             this.ProfilingCredits = this.creditsInfo[2];
-            this.TotalCredits += this.GeneralCredits + this.BaseCredits + this.ProfilingCredits;
+            this.TotalCredits += this.creditsInfo[3];
+
+            this.elCreditsInfo = JSON.parse(localStorage.getItem('elCreditsInfo'));
+            this.GeneralElCredits = this.elCreditsInfo[0];
+            this.BaseElCredits = this.elCreditsInfo[1];
+            this.ProfilingElCredits = this.elCreditsInfo[2];
+            this.TotalElCredits += this.elCreditsInfo[3];
         }
     }
     

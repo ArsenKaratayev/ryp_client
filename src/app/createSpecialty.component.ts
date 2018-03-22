@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Specialty } from './Specialty';
+import { UserService } from './user.service';
 
 @Component({
     selector: 'createSpecialty',
@@ -9,7 +10,7 @@ import { Specialty } from './Specialty';
     styleUrls: ['./app.component.css']
 })
 export class CreateSpecialtyComponent {
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router, private US : UserService) {}
 
     Name : string;
     Shifr : string;
@@ -21,7 +22,7 @@ export class CreateSpecialtyComponent {
         } else {
             this.http
             .post('http://localhost:5001/api/specialtys', 
-                new Specialty(this.Name, this.Shifr))
+                new Specialty(this.Name, this.Shifr, this.US.getUser()))
             .subscribe(() => {
                 console.log('here!');
             })

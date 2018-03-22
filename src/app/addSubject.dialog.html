@@ -36,7 +36,7 @@
     }
 </style>
 
-<div>
+<div *ngIf="Type==true">
     <div *ngIf="ReqEl==false" style="background-color: #014d99; color: #ffffff; padding-top: 18px; padding-bottom: 18px; font-size: 16px; padding-left: 30px; padding-right: 30px; border-top-left-radius: 3px; border-top-right-radius: 3px; font-weight: 300;">Добавление элективной группы</div>
     <div *ngIf="ReqEl==true" style="background-color: #014d99; color: #ffffff; padding-top: 18px; padding-bottom: 18px; font-size: 16px; padding-left: 30px; padding-right: 30px; border-top-left-radius: 3px; border-top-right-radius: 3px; font-weight: 300;">Добавление дисциплины</div>
     <div style="display: inline-block;">
@@ -53,6 +53,46 @@
             <button (click)="changeToEl()" class="term-button" style="width: 350px; padding-top: 17px; padding-bottom: 17px; font-weight: 400;">Элективные группы</button>
         </div>
         <div *ngIf="ReqEl==true" style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
+            <div style="float: left; font-size: 14px; font-weight: 400; padding-top: 4px; padding-right: 20px; padding-left: 15px;">Выбрать:</div>
+            <div style="float: left; padding-right: 20px;">
+                <div style="height: 100px; overflow: scroll; width:200px; background-color : #e7eaec">
+                    <div *ngFor="let s of Subjects" style="margin-bottom: 1px; cursor: pointer;" (click)="addExport(s)" [ngStyle]="{'background-color' : s.type.color }">{{s.name}}</div>
+                </div>
+            </div>
+            <div style="float: left;">
+                <div style="height: 100px; overflow: scroll; width:200px; background-color : #e7eaec">
+                    <div *ngFor="let s of Export" style="margin-bottom: 1px; cursor: pointer;" (click)="deleteExport(s)" [ngStyle]="{'background-color' : s.type.color }">{{s.name}}</div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="ReqEl==false" style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
+            <div style="float: left; font-size: 14px; font-weight: 400; padding-top: 4px; padding-right: 20px; padding-left: 15px;">Выбрать:</div>
+            <div style="float: left; padding-right: 20px;">
+                <div style="height: 100px; overflow: scroll; width:200px; background-color : #e7eaec">
+                    <div (mouseenter)="mouseEnter(s.subjects)" (mouseleave)="mouseLeave()" *ngFor="let s of Electives" style="margin-bottom: 1px; cursor: pointer;" (click)="addExport(s)" [ngStyle]="{'background-color' : s.type.color }">{{s.name}}</div>
+                </div>
+            </div>
+            <div style="float: left;">
+                <div style="height: 100px; overflow: scroll; width:200px; background-color : #e7eaec">
+                    <div *ngFor="let s of Export" style="margin-bottom: 1px; cursor: pointer;" (click)="deleteExport(s)" [ngStyle]="{'background-color' : s.type.color }">{{s.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #e7eaec; padding: 15px;">
+        <div style="float: right;">
+            <button (click)="closeDialog()" class="add-discipline-button">Добавить</button>
+        </div>
+        <div style="float: right; margin-right: 15px;">
+            <button (click)="otm()" class="cancel-button">Отменить</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="Type==false">
+    <div style="background-color: #014d99; color: #ffffff; padding-top: 18px; padding-bottom: 18px; font-size: 16px; padding-left: 30px; padding-right: 30px; border-top-left-radius: 3px; border-top-right-radius: 3px; font-weight: 300;">Добавление дисциплины</div>
+    <div style="display: inline-block;">
+        <div style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
             <div style="float: left; font-size: 14px; font-weight: 400; padding-top: 4px; padding-right: 20px; padding-left: 15px;">Выбрать дисциплину:</div>
             <div style="float: left;">
                 <div class="select2" style="width: 460px; font-size: 14px;">
@@ -62,26 +102,14 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="ReqEl==false" style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
-            <div style="float: left; font-size: 14px; font-weight: 400; padding-top: 4px; padding-right: 20px; padding-left: 15px;">Выбрать элективную группу:</div>
-            <div style="float: left;">
-                <div class="select2" style="width: 400px; font-size: 14px;">
-                    <select [(ngModel)]="Elective">
-                        <option *ngFor="let e of Electives" [ngValue]="e">{{e.name}}</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <!-- <div style="height: 140px; background-color: #f4f5f6; border-top: 1px solid #e7eaec;">
-            <div style="color: #afb8c5; padding-top: 60px; font-weight: 300; font-size: 16px; text-align: center;">Описание дисциплины отсутсвует</div>
-        </div> -->
     </div>
     <div style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #e7eaec; padding: 15px;">
         <div style="float: right;">
             <button (click)="closeDialog()" class="add-discipline-button">Добавить</button>
         </div>
         <div style="float: right; margin-right: 15px;">
-            <button (click)="closeDialog()" class="cancel-button">Отменить</button>
+            <button (click)="otm()" class="cancel-button">Отменить</button>
         </div>
     </div>
 </div>
+    

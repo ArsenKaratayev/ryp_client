@@ -51,7 +51,7 @@
     }
 </style>
 
-<section size="A4">
+<section style="margin-top: 20px" size="A4">
     <div style="margin-left: 60px; margin-right: 60px;" ng-controller="printController as self">
         <div align="center" style="padding-top: 40px; font-size: 10px; font-weight: 600;">
             <div *ngIf="ryp != null">УЧЕБНЫЙ ПЛАН СПЕЦИАЛЬНОСТИ для набора на {{ryp.year}} уч. год</div>
@@ -233,26 +233,26 @@
                         <tr>
                             <td width="214" align="left" style="padding: 4px;">Цикл общеобразовательных диспицлин (О)</td>
                             <td width="30" align="center">{{GeneralCredits}}</td>
-                            <td width="30" align="center">0</td>
-                            <td width="30" align="center">{{GeneralCredits + 0}}</td>
+                            <td width="30" align="center">{{GeneralElCredits}}</td>
+                            <td width="30" align="center">{{GeneralCredits + GeneralElCredits}}</td>
                         </tr>
                         <tr>
                             <td width="214" align="left" style="padding: 4px;">Цикл базовых дисциплин (Б)</td>
                             <td width="30" align="center">{{BaseCredits}}</td>
-                            <td width="30" align="center">0</td>
-                            <td width="30" align="center">{{BaseCredits + 0}}</td>
+                            <td width="30" align="center">{{BaseElCredits}}</td>
+                            <td width="30" align="center">{{BaseCredits + BaseElCredits}}</td>
                         </tr>
                         <tr>
                             <td width="214" align="left" style="padding: 4px;">Цикл профилирующих дисциплин (П)</td>
                             <td width="30" align="center">{{ProfilingCredits}}</td>
-                            <td width="30" align="center">0</td>
-                            <td width="30" align="center">{{ProfilingCredits + 0}}</td>
+                            <td width="30" align="center">{{ProfilingElCredits}}</td>
+                            <td width="30" align="center">{{ProfilingCredits + ProfilingElCredits}}</td>
                         </tr>
                         <tr>
                             <td width="214" align="center" style="padding: 4px; font-weight: 600;">Всего по теоритическому обучению:</td>
                             <td width="30" align="center">{{TotalCredits}}</td>
-                            <td width="30" align="center">0</td>
-                            <td width="30" align="center">{{TotalCredits + 0}}</td>
+                            <td width="30" align="center">{{TotalElCredits}}</td>
+                            <td width="30" align="center">{{TotalCredits + TotalElCredits}}</td>
                         </tr>
                         <tr>
                             <td width="214" align="left" style="padding: 4px;">Профессиональная практика (ДВО)</td>
@@ -268,9 +268,9 @@
                         </tr>
                         <tr>
                             <td width="214" align="center" style="padding: 4px; font-weight: 600;">ИТОГО:</td>
-                            <td width="30" align="center">{{TotalCredits + PractiseCredits + AttestationCredits}}</td>
-                            <td width="30" align="center">0</td>
-                            <td width="30" align="center">{{TotalCredits + 0 + PractiseCredits + AttestationCredits}}</td>
+                            <td width="30" align="center">{{TotalCredits}}</td>
+                            <td width="30" align="center">{{TotalElCredits}}</td>
+                            <td width="30" align="center">{{TotalCredits + TotalElCredits}}</td>
                         </tr>
                     </table>
                 </div>

@@ -1,29 +1,14 @@
 <!-- <div style="height: 100%; background-color: #e7eaec;"> -->
-    <div style="width: 100%; background-color: #014d99;">
-            <div style="display: inline-block; width: 100%; padding-top: 10px; padding-bottom: 10px;">
-                <div style="float: left; width: 50%; padding-left: 20px;">
-                    <div style="display: inline-block;">
-                        <div style="float: left;">
-                            <img src="/assets/images/logo.png" height="50px">
-                        </div>
-                        <div style="float: left; padding-left: 7px; padding-top: 5px;">
-                            <img src="/assets/images/name.png" height="40px">
-                        </div>
-                    </div>
-                </div>
-                <div style="float: right; width: 50%; text-align: right; padding-right: 25px; color: #ffffff; padding-top: 2px;">
-                    <div>Юнусов Расул</div>
-                    <div style="font-size: 13px; font-weight: 200; opacity: 0.7;">Кафедра КиПИ</div>
-                </div>
-            </div>
-        </div>
     <div style="width: 100%;">
+        <div style="position: fixed; top:50%; left:50%; border: 1px solid #000000; background-color: #ffffff;" *ngIf="showPre==true">
+            <p  *ngFor="let p of Pre">{{p.name}}</p>
+        </div>
         <div style="width: 1324px; margin: 0 auto; padding-bottom: 50px;">
             <div style="margin-top: 25px; margin-left: 147px; margin-right: 147px; font-size: 15px;">
-                <a href="/createSubject">Добвить предмет</a>
+                <a routerLink="/createSubject" routerLinkActive="active">Добавить предмет</a>
             </div>
             <div style="margin-top: 25px; margin-left: 147px; margin-right: 147px; font-size: 15px;">
-                <a href="/createElective">Добвить элективную группу</a>
+                <a routerLink="/createElective" routerLinkActive="active">Добавить элективную группу</a>
             </div>
             <div *ngIf="ReqEl==true" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
                 <h2 (click)="changeReqEl()" class="choice">Список предметов</h2>
@@ -35,20 +20,20 @@
                     <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Кред.</div>
                     <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">лк/лб/пр</div>
                     <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Пререквизит</div>
-                    <div style="float: left; width: 70px; padding-top: 12px; padding-bottom: 12px; text-align: center;">&nbsp;&nbsp;&nbsp;Уд.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Обн.</div>
+                    <div style="float: left; width: 70px; padding-top: 12px; padding-bottom: 12px; text-align: center;">&nbsp;&nbsp;&nbsp;Уд.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ред.</div>
                 </div>
 
                 <div style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
                     <div *ngFor="let s of Subjects; let i = index" [attr.data-index]="i" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
-                    1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -3px 0px;" [ngStyle]="{'background-color' : s.type.color }">
-                        <div style="float: left; width: 30px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
-                        <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
-                        <div style="float: left; width: 440px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
-                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code[0]}}</div>
-                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
-                        <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
-                        <div *ngIf="s.prerequisites == null" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
-                        <div *ngIf="s.prerequisites != null" style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
+                    1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -2.5px 0px;" [ngStyle]="{'background-color' : s.type.color }">
+                        <div style="float: left; width: 30px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
+                        <div style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
+                        <div style="float: left; width: 440px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code[0]}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
+                        <div style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
+                        <div *ngIf="s.prerequisites.length == 0" style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
+                        <div *ngIf="s.prerequisites.length != 0" (mouseenter)="mouseEnter(s.prerequisites)" (mouseleave)="mouseLeave()" style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
                         <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
                             <button style="padding-top: 9px;" class="remove" (click)="deleteSubject(s)">
                                 <img src="/assets/images/remove-icon.png" width="12px">
@@ -61,7 +46,12 @@
                         </div>
                     </div>
                 </div>
+                <!-- <div *ngIf="showPre==true">
+                    <p style="padding-top: 8px; padding-left:860px" *ngFor="let p of Pre">{{p.name}}</p>
+                </div> -->
             </div>
+
+            
 
 
             <div *ngIf="ReqEl==false" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
@@ -74,20 +64,20 @@
                     <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Кред.</div>
                     <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">лк/лб/пр</div>
                     <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Пререквизит</div>
-                    <div style="float: left; width: 70px; padding-top: 12px; padding-bottom: 12px; text-align: center;">&nbsp;&nbsp;&nbsp;Уд.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Обн.</div>
+                    <div style="float: left; width: 70px; padding-top: 12px; padding-bottom: 12px; text-align: center;">&nbsp;&nbsp;&nbsp;Уд.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ред.</div>
                 </div>
 
                 <div style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
                     <div *ngFor="let s of Electives; let i = index" [attr.data-index]="i" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
-                    1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -3px 0px;" [ngStyle]="{'background-color' : s.type.color }">
-                        <div style="float: left; width: 30px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
-                        <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
-                        <div style="float: left; width: 440px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
-                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code[0]}}</div>
-                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
-                        <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
-                        <div *ngIf="s.prerequisites == null" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
-                        <div *ngIf="s.prerequisites != null" style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
+                    1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -2.5px 0px;" [ngStyle]="{'background-color' : s.type.color }">
+                        <div style="float: left; width: 30px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
+                        <div style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
+                        <div (mouseenter)="mouseEnter(s.subjects)" (mouseleave)="mouseLeave()" style="float: left; width: 440px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code[0]}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
+                        <div style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
+                        <div *ngIf="s.prerequisites.length == 0" style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
+                        <div *ngIf="s.prerequisites.length != 0" (mouseenter)="mouseEnter(s.prerequisites)" (mouseleave)="mouseLeave()" style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
                         <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
                             <button style="padding-top: 9px;" class="remove" (click)="deleteElective(s)">
                                 <img src="/assets/images/remove-icon.png" width="12px">

@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 export class SubjectType {
     name : string;
     code : string;
@@ -35,9 +37,11 @@ export class Subject {
     hours : SubjectHours;
     credits : number;
     shifr : string;
-    prerequisites : Subject[];
+    prerequisites : Subject[] = [];
+    user : User;
+    // date : string;
 
-    constructor(name : string, type : SubjectType, hours : SubjectHours, shifr : string, pre : Subject[]) {
+    constructor(name : string, type : SubjectType, hours : SubjectHours, shifr : string, pre : Subject[], user : User) {
         this.id;
         this.name = name;
         this.type = type;
@@ -45,5 +49,7 @@ export class Subject {
         this.credits = hours.lec+hours.lab+hours.pr;
         this.shifr = shifr;
         this.prerequisites = pre;
+        this.user = user;
+        // this.date = date.toLocaleDateString();
     }
 }

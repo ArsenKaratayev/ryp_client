@@ -1,22 +1,5 @@
 <div style="height: 100%; background-color: #e7eaec;">
-    <div style="width: 100%; background-color: #014d99;">
-        <div style="display: inline-block; width: 100%; padding-top: 10px; padding-bottom: 10px;">
-            <div style="float: left; width: 50%; padding-left: 20px;">
-                <div style="display: inline-block;">
-                    <div style="float: left;">
-                        <img src="/assets/images/logo.png" height="50px">
-                    </div>
-                    <div style="float: left; padding-left: 7px; padding-top: 5px;">
-                        <img src="/assets/images/name.png" height="40px">
-                    </div>
-                </div>
-            </div>
-            <div style="float: right; width: 50%; text-align: right; padding-right: 25px; color: #ffffff; padding-top: 2px;">
-                <div>Юнусов Расул</div>
-                <div style="font-size: 13px; font-weight: 200; opacity: 0.7;">Кафедра КиПИ</div>
-            </div>
-        </div>
-    </div>
+    
     <!--PAGE HEADER-->
     <div style="width: 100%; display: inline-block; background-color: #ffffff; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
         <div style="float: left; padding-top: 17px; padding-bottom: 17px;">Создание РУП</div>
@@ -76,8 +59,8 @@
                         </div>
                     </div>
                     <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{GeneralCredits}}</div>
-                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">0</div>
-                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{GeneralCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{GeneralElCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{GeneralElCredits + GeneralCredits}}</div>
                 </div>
                 <div style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
                     <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec; margin: -5px 0px;">
@@ -89,8 +72,8 @@
                         </div>
                     </div>
                     <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{BaseCredits}}</div>
-                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">0</div>
-                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{BaseCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{BaseElCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{BaseElCredits + BaseCredits}}</div>
                 </div>
                 <div style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
                     <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec; margin: -5px 0px;">
@@ -102,8 +85,8 @@
                         </div>
                     </div>
                     <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{ProfilingCredits}}</div>
-                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">0</div>
-                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{ProfilingCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{ProfilingElCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{ProfilingElCredits + ProfilingCredits}}</div>
                 </div>
                 <div style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
                     <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec; margin: -5px 0px;">
@@ -134,8 +117,8 @@
                 <div style="display: inline-block; font-size: 14px; background-color: #f2f9ff; font-weight: 600; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; margin: -5px 0px;">
                     <div style="float: left; width: 594px; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">Итого</div>
                     <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{TotalCredits}}</div>
-                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{0}}</div>
-                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{TotalCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;">{{TotalElCredits}}</div>
+                    <div style="float: left; width: 130px; text-align: center; padding-top: 10px; padding-bottom: 10px;">{{TotalCredits + TotalElCredits}}</div>
                 </div>
             </div>
 
@@ -172,16 +155,19 @@
                 </div>
                 
                 <div *ngIf="semesterNumber != 0" style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
+                    <div style="position: fixed; top:50%; left:50%; border: 1px solid #000000; background-color: #ffffff;" *ngIf="showPre==true">
+                        <p  *ngFor="let p of Pre">{{p.name}}</p>
+                    </div>
                     <div *ngFor="let s of AllSubjects[semesterNumber - 1]; let i = index" [attr.data-index]="i" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
-                    1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -3px 0px;" [ngStyle]="{'background-color' : s.type.color }">
+                    1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -2.5px 0px;" [ngStyle]="{'background-color' : s.type.color }">
                         <div style="float: left; width: 30px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
                         <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
-                        <div style="float: left; width: 440px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
+                        <div (mouseenter)="mouseEnter(s.subjects)" (mouseleave)="mouseLeave()" style="float: left; width: 440px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
                         <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code[0]}}</div>
                         <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
                         <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
-                        <div *ngIf="s.prerequisites == null" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
-                        <div *ngIf="s.prerequisites != null" style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
+                        <div *ngIf="s.prerequisites.length == 0" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
+                        <div (mouseenter)="mouseEnter(s.prerequisites)" (mouseleave)="mouseLeave()" *ngIf="s.prerequisites.length != 0" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
                         <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
                             <button style="padding-top: 9px;" class="remove" (click)="deleteSubject(s)">
                                 <img src="/assets/images/remove-icon.png" width="12px">
@@ -225,3 +211,4 @@
         <h1 style="text-align:center">Такой РУП уже создан!</h1>
     </div>
 </div>
+

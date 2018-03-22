@@ -1,4 +1,5 @@
 import { SubjectType, SubjectHours, Subject } from "./Subject";
+import { User } from "./User";
 
 export interface IElectiveGroup {
     subjects;
@@ -13,8 +14,9 @@ export class ElectiveGroup implements IElectiveGroup {
     shifr : string;
     subjects : Subject[];
     prerequisites : Subject[];
+    user : User;
 
-    constructor(name : string, type : SubjectType, hours : SubjectHours, shifr : string, sub : Subject[]) {
+    constructor(name : string, type : SubjectType, hours : SubjectHours, shifr : string, sub : Subject[], user : User) {
         this.id;
         this.name = name;
         this.type = type;
@@ -33,5 +35,6 @@ export class ElectiveGroup implements IElectiveGroup {
             }
         }
         this.prerequisites = arr;
+        this.user = user;
     }
 }

@@ -4,14 +4,16 @@ import { SubjectHours, SubjectType, Subject } from './Subject';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { AddSubjectDialog } from './createRyp.component';
+import { UserService } from './user.service';
+import { User } from './User';
 
 @Component({
   selector: 'createSubject',
   templateUrl: './createSubject.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class CreateSubjectComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {}
+  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private US : UserService) {}
 
   Name : string;
   Type : string;
@@ -24,9 +26,8 @@ export class CreateSubjectComponent implements OnInit {
 
   openDialog(): void {
     let dialogRef = this.dialog.open(AddSubjectDialog, {    
-        // height: '400px',
         width: '750px',
-        data: { Subjects : this.Subjects }
+        data: { Subjects : this.Subjects, type : false }
     });
     
     dialogRef.afterClosed().subscribe(result => {
@@ -62,7 +63,7 @@ export class CreateSubjectComponent implements OnInit {
     } else {
         this.http
         .post('http://localhost:5001/api/subjects', 
-            new Subject(this.Name, new SubjectType(this.Type), new SubjectHours(this.Lec, this.Lab, this.Pr), this.Shifr, this.Prerequisites))
+            new Subject(this.Name, new SubjectType(this.Type), new SubjectHours(this.Lec, this.Lab, this.Pr), this.Shifr, this.Prerequisites, this.US.getUser()))
         .subscribe(() => {
           console.log('here!');
         })

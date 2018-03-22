@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { AddSubjectDialog } from './createRyp.component';
 import { ElectiveGroup } from './ElectiveGroup';
+import { UserService } from './user.service';
 
 @Component({
     selector: 'createElective',
@@ -12,7 +13,7 @@ import { ElectiveGroup } from './ElectiveGroup';
     styleUrls: ['./app.component.css']
 })
 export class CreateElectiveComponent implements OnInit {
-    constructor(private http: HttpClient, private router: Router, private dialog: MatDialog) {}
+    constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private US : UserService) {}
 
     Name : string;
     Type : SubjectType;
@@ -25,7 +26,7 @@ export class CreateElectiveComponent implements OnInit {
     openDialog(): void {
         let dialogRef = this.dialog.open(AddSubjectDialog, {    
             width: '750px',
-            data: { Subjects : this.Subjects }
+            data: { Subjects : this.Subjects, type : false }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -84,7 +85,7 @@ export class CreateElectiveComponent implements OnInit {
         } else {
             this.http
                 .post('http://localhost:5001/api/electivegroups', 
-                    new ElectiveGroup(this.Name, this.Type, new SubjectHours(0, 0, this.Pr), this.Shifr, this.Electives))
+                    new ElectiveGroup(this.Name, this.Type, new SubjectHours(0, 0, this.Pr), this.Shifr, this.Electives, this.US.getUser()))
                 .subscribe(() => {
                     console.log('here!');
             })
