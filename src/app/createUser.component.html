@@ -1,0 +1,26 @@
+<div class="container">
+    <h2>Предмет</h2>
+    <div class="form-group">
+        <div>Название</div>
+        <input [(ngModel)]="Name" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <div>Пароль</div>
+        <input [(ngModel)]="Password" type="password" class="form-control">
+    </div>
+    <div class="form-group">
+        <div>Подтвердить пароль</div>
+        <input [(ngModel)]="RePassword" type="password" class="form-control">
+    </div>
+    <div class="form-group">
+        <div>Тип</div>
+        <select [(ngModel)]="Role" class="form-control">
+            <option value=1>Офис регистратор</option>
+            <option value=2>Заведующий кафедры</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input (click)="save()" type="submit" value="Сохранить" class="btn btn-default">
+        <a routerLink="/userList" routerLinkActive="active" class="btn btn-default">К списку</a>
+    </div>
+</div>

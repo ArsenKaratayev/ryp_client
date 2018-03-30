@@ -9,8 +9,9 @@ export class User {
     password : string;
     role : UserRole;
 
-    constructor(name : string, password : string) {
+    constructor(name : string, password : string, role : UserRole) {
         this.name = name;
         this.password = password;
+        this.role = role;
     }
 }

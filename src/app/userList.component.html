@@ -1,0 +1,26 @@
+<div style="width: 100%;">
+    <div style="width: 1024px; margin: 0 auto; padding-bottom: 50px;">
+        <div style="margin-top: 25px; margin-right: 147px; font-size: 15px;">
+            <a routerLink="/createUser" routerLinkActive="active">Добавить пользователя</a>
+        </div>
+        <h2>Список пользователей</h2>
+        <table class="table">
+            <tr>
+                <th>Имя</th>
+                <th>Роль</th>
+                <th></th>
+            </tr>
+            
+            <tr *ngFor="let u of Users">
+                <td>{{u.name}}</td>
+                <!-- <td><p *ngIf="u.role == 1">Офис регистратор</p><td>
+                <td><p *ngIf="u.role == 2">Заведующий кафедрой</p><td> -->
+                <td>{{u.role}}</td>
+                <td>
+                    <a (click)="updateUser(u)">Изменить</a>
+                    <a (click)="deleteUser(u)">&nbsp;&nbsp;Удалить</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

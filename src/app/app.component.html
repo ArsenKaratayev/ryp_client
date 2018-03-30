@@ -1,9 +1,8 @@
-<div *ngIf="User!=undefined">
-<nav>
+<nav *ngIf="User!=undefined">
     <a routerLink="/" routerLinkActive="active">Главная</a>
     <a routerLink="/subjectList" routerLinkActive="active">Предметы</a>
     <a routerLink="/specialtyList" routerLinkActive="active">Специальности</a>
-    <a *ngIf="User.role==0" routerLink="/createUser" routerLinkActive="active">Пользователи</a>
+    <a *ngIf="User.role==0" routerLink="/userList" routerLinkActive="active">Пользователи</a>
 </nav>
 <div style="width: 100%; background-color: #014d99;">
     <div style="display: inline-block; width: 100%; padding-top: 10px; padding-bottom: 10px;">
@@ -17,26 +16,47 @@
                 </div>
             </div>
         </div>
-        <div style="float: right; width: 50%; text-align: right; padding-right: 25px; color: #ffffff; padding-top: 2px;">
+        <div *ngIf="User!=undefined" style="float: right; width: 50%; text-align: right; padding-right: 25px; color: #ffffff; padding-top: 2px;">
             <div>{{User.name}}</div>
-            <div style="font-size: 13px; font-weight: 200; opacity: 0.7;">Кафедра КиПИ</div>
+            <div (click)="logOut()" style="font-size: 13px; font-weight: 200; opacity: 0.7;"><a style="color:#ffffff; cursor: pointer;">Выйти</a></div>
+            <!-- <div style="font-size: 13px; font-weight: 200; opacity: 0.7;">Кафедра КиПИ</div> -->
         </div>
     </div>
 </div>
 <!-- <h1 style="text-align:center;">Зарегис ИУП</h1> -->
-<router-outlet></router-outlet>
-</div>
+<router-outlet *ngIf="User!=undefined"></router-outlet>
+
 <div *ngIf="User==undefined" class="container">
-    <h2>Вход</h2>
+    <h2 style="color : #014d99">Вход</h2>
     <div class="form-group">
-        <div>Имя</div>
+        <div>Введите имя</div>
         <input [(ngModel)]="Name" type="text" class="form-control">
     </div>
     <div class="form-group">
-        <div>Пароль</div>
-        <input [(ngModel)]="Password" type="text" class="form-control">
+        <div>Введите пароль</div>
+        <input [(ngModel)]="Password" type="password" class="form-control">
     </div>
     <div class="form-group">
-        <input (click)="login()" type="submit" value="Войти" class="btn btn-default">
+        <input (click)="login()" type="submit" value="Войти" class="btn btn-primary wd">
     </div>
 </div>
+
+<style>
+    .container {
+        margin-top: 20px;
+        text-align: center;
+        background-color: #e7eaec;
+        width : 450px;
+        padding-bottom: 20px;
+        color : #014d99
+    }
+    .wd {
+        width : 150px;
+        background-color: #014d99;
+    }
+    .form-control {
+        width : 150px;
+        text-align: center;
+        display: inline;
+    }
+</style>

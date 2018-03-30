@@ -117,7 +117,6 @@ export class CreateRypComponent implements OnInit {
         }
     }
     addSubject(s : any) : void {
-        console.log(s)
         this.AllSubjects[this.semesterNumber - 1].push(s);
         if (s.subjects == undefined) {
             this.SubjectsForSave[this.semesterNumber - 1].push(s);
@@ -223,6 +222,9 @@ export class AddSubjectDialog implements OnInit {
     Export : any[] = [];
     PreSubs : Subject[][] = this.data.PreSubs;
     semNum : number = this.data.Sem;
+    filter : string;
+    VisibleSubjects : Subject[] = [];
+    VisibleElectives : ElectiveGroup[] = [];
 
     ngOnInit(): void {
         if (this.Type) {
@@ -271,24 +273,46 @@ export class AddSubjectDialog implements OnInit {
                 }
             }
             this.Electives = arr;
-        }   
+            
+        }  
+        this.VisibleSubjects = this.Subjects;
+        this.VisibleElectives = this.Electives; 
     }
 
     addExport(s : any) : void {
-        this.Export.push(s);
-        if (s.subjects == undefined) {
-            this.Subjects.splice(this.Subjects.indexOf(s), 1);
+        if (this.Type) {
+            s.type.color = 'black';
+        }
+        if (this.Export.indexOf(s) != -1) {
+            this.returnStyle(s);
+            this.Export.splice(this.Export.indexOf(s), 1);
         } else {
-            this.Electives.splice(this.Electives.indexOf(s), 1);
+            this.Export.push(s);
         }
     }
 
     deleteExport(s : any) : void {
         this.Export.splice(this.Export.indexOf(s), 1);
-        if (s.subjects == undefined) {
-            this.Subjects.push(s);
-        } else {
-            this.Electives.push(s);
+    }
+
+    onChange() : void {
+        this.VisibleSubjects = this.Subjects;
+        this.VisibleElectives = this.Electives;
+        var arr = [];
+        for (let i = 0; i < this.Subjects.length; i++) {
+            if (this.Subjects[i].name.indexOf(this.filter) != -1 || this.Subjects[i].name.indexOf(this.filter[0].toUpperCase() + this.filter.substring(1, this.filter.length)) != -1) {
+                arr.push(this.Subjects[i]);
+            }
+        }
+        this.VisibleSubjects = arr;
+        if (this.Type) {
+            var arr = [];
+            for (let i = 0; i < this.Electives.length; i++) {
+                if (this.Electives[i].name.indexOf(this.filter) != -1 || this.Subjects[i].name.indexOf(this.filter[0].toUpperCase() + this.filter.substring(1, this.filter.length)) != -1) {
+                    arr.push(this.Electives[i]);
+                }
+            }
+            this.VisibleElectives = arr;
         }
     }
 
@@ -300,6 +324,9 @@ export class AddSubjectDialog implements OnInit {
     }
 
     closeDialog() : void {
+        for (let i = 0; i < this.Export.length; i++) {
+            this.returnStyle(this.Export[i]);
+        }
         if (this.Type) {
             this.dialogRef.close(this.Export);
         } else {
@@ -311,6 +338,21 @@ export class AddSubjectDialog implements OnInit {
         }
     }
     otm() : void {
+        for (let i = 0; i < this.Export.length; i++) {
+            this.returnStyle(this.Export[i]);
+        }
         this.dialogRef.close();
+    }
+
+    returnStyle(s : any) : void {
+        if (s.type.name == "Базовая") {
+            s.type.color = "#64B5F6";
+        } else if (s.type.name == "Профилирующая") {
+            s.type.color = "#7986CB";
+        } else if (s.type.name == "Общеобразовательная") {
+            s.type.color = "#81C784";
+        } else {
+            s.type.color = "#FF7043";
+        }
     }
 }

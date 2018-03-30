@@ -41,7 +41,7 @@
     <div *ngIf="ReqEl==true" style="background-color: #014d99; color: #ffffff; padding-top: 18px; padding-bottom: 18px; font-size: 16px; padding-left: 30px; padding-right: 30px; border-top-left-radius: 3px; border-top-right-radius: 3px; font-weight: 300;">Добавление дисциплины</div>
     <div style="display: inline-block;">
         <div *ngIf="ReqEl==true" style="float: left;">
-            <button disabled  class="term-button-active" style="width: 350px; padding-top: 17px; padding-bottom: 17px; font-weight: 400;">Основные дисциплины</button>
+            <button disabled class="term-button-active" style="width: 350px; padding-top: 17px; padding-bottom: 17px; font-weight: 400;">Основные дисциплины</button>
         </div>
         <div *ngIf="ReqEl==false" style="float: left;">
             <button (click)="changeToReq()" class="term-button-active" style="width: 350px; padding-top: 17px; padding-bottom: 17px; font-weight: 400;">Основные дисциплины</button>
@@ -52,9 +52,9 @@
         <div *ngIf="ReqEl==true" style="float: left;">
             <button (click)="changeToEl()" class="term-button" style="width: 350px; padding-top: 17px; padding-bottom: 17px; font-weight: 400;">Элективные группы</button>
         </div>
-        <div *ngIf="ReqEl==true" style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
+        <!-- <div *ngIf="ReqEl==true" style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
             <div style="float: left; font-size: 14px; font-weight: 400; padding-top: 4px; padding-right: 20px; padding-left: 15px;">Выбрать:</div>
-            <div style="float: left; padding-right: 20px;">
+            <div style="float: left; padding-right: 40px;">
                 <div style="height: 100px; overflow: scroll; width:200px; background-color : #e7eaec">
                     <div *ngFor="let s of Subjects" style="margin-bottom: 1px; cursor: pointer;" (click)="addExport(s)" [ngStyle]="{'background-color' : s.type.color }">{{s.name}}</div>
                 </div>
@@ -64,10 +64,47 @@
                     <div *ngFor="let s of Export" style="margin-bottom: 1px; cursor: pointer;" (click)="deleteExport(s)" [ngStyle]="{'background-color' : s.type.color }">{{s.name}}</div>
                 </div>
             </div>
+        </div> -->
+
+        <div style="padding-bottom:20px;">
+            <input class="form-control" [(ngModel)]="filter" placeholder="Поиск" type="text" (ngModelChange)="onChange($event)">
         </div>
-        <div *ngIf="ReqEl==false" style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
+
+        <div style="display: inline-block; width: 100%; font-size: 13px; border-bottom: 1px solid #e7eaec; border-top: 1px solid #dfe1e6;">
+            <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; border-left: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Код</div>
+            <div style="float: left; width: 342px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Наименование дисциплины</div>
+            <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Комп.</div>
+            <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Кред.</div>
+            <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">лк/лб/пр</div>
+        </div>
+
+        <div *ngIf="ReqEl==true" style="background-color: #f4f5f6; margin: -5px 0px; height: 250px; overflow: scroll;">
+            <div (click)="addExport(s)" *ngFor="let s of VisibleSubjects;" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
+            1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -2.5px 0px;" [ngStyle]="{'background-color' : s.type.color }">
+                <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; border-left: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
+                <div style="float: left; width: 342px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
+                <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code}}</div>
+                <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
+                <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
+            </div>
+        </div>
+
+        <div *ngIf="ReqEl==false" style="background-color: #f4f5f6; margin: -5px 0px; height: 250px; overflow: scroll;">
+            <div (click)="addExport(s)" *ngFor="let s of VisibleElectives;" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
+            1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -2.5px 0px;" [ngStyle]="{'background-color' : s.type.color }">
+                <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; border-left: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
+                <div style="float: left; width: 342px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
+                <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code}}</div>
+                <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
+                <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
+            </div>
+        </div>
+
+
+
+        <!-- <div *ngIf="ReqEl==false" style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
             <div style="float: left; font-size: 14px; font-weight: 400; padding-top: 4px; padding-right: 20px; padding-left: 15px;">Выбрать:</div>
-            <div style="float: left; padding-right: 20px;">
+            <div style="float: left; padding-right: 40px;">
                 <div style="height: 100px; overflow: scroll; width:200px; background-color : #e7eaec">
                     <div (mouseenter)="mouseEnter(s.subjects)" (mouseleave)="mouseLeave()" *ngFor="let s of Electives" style="margin-bottom: 1px; cursor: pointer;" (click)="addExport(s)" [ngStyle]="{'background-color' : s.type.color }">{{s.name}}</div>
                 </div>
@@ -77,7 +114,7 @@
                     <div *ngFor="let s of Export" style="margin-bottom: 1px; cursor: pointer;" (click)="deleteExport(s)" [ngStyle]="{'background-color' : s.type.color }">{{s.name}}</div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #e7eaec; padding: 15px;">
         <div style="float: right;">
@@ -90,14 +127,17 @@
 </div>
 
 <div *ngIf="Type==false">
-    <div style="background-color: #014d99; color: #ffffff; padding-top: 18px; padding-bottom: 18px; font-size: 16px; padding-left: 30px; padding-right: 30px; border-top-left-radius: 3px; border-top-right-radius: 3px; font-weight: 300;">Добавление дисциплины</div>
+    <div style="background-color: #014d99; color: #ffffff; padding-top: 18px; padding-bottom: 18px; font-size: 16px; padding-left: 30px; padding-right: 30px; border-top-left-radius: 3px; border-top-right-radius: 3px;">Добавление дисциплины</div>
     <div style="display: inline-block;">
         <div style="display: inline-block; width: 100%; background-color: #ffffff; border-top: 1px solid #dfe1e6; padding-left: 20px; padding-right: 20px; padding-top: 35px; padding-bottom: 35px;">
+            <div style="padding-bottom:20px;">
+                <input class="form-control" style="margin-top:-20px;" [(ngModel)]="filter" placeholder="Поиск" type="text" (ngModelChange)="onChange($event)">
+            </div>
             <div style="float: left; font-size: 14px; font-weight: 400; padding-top: 4px; padding-right: 20px; padding-left: 15px;">Выбрать дисциплину:</div>
             <div style="float: left;">
                 <div class="select2" style="width: 460px; font-size: 14px;">
                     <select [(ngModel)]="Subject">
-                        <option *ngFor="let s of Subjects" [ngValue]="s">{{s.name}}</option>
+                        <option *ngFor="let s of VisibleSubjects" [ngValue]="s">{{s.name}}</option>
                     </select>
                 </div>
             </div>
@@ -113,3 +153,9 @@
     </div>
 </div>
     
+<style>
+    .form-control {
+        margin-top:20px;
+        display: inline;
+    }
+</style>

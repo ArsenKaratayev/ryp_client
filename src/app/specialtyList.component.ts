@@ -2,6 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Specialty } from './Specialty';
+import { UserService } from './user.service';
+import { User } from './User';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'specialtyList',
@@ -10,10 +13,11 @@ import { Specialty } from './Specialty';
   providers: []
 })
 export class SpecialtyListComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private US : UserService, private DS : DataService) {
 
   }
   Specialtys : Specialty[] = [];
+  user : User = this.US.getUser();
 
   loadSpecialtys() : void {
     this.http.get('http://localhost:5001/api/specialtys').subscribe((data : Specialty[]) => { 
@@ -26,12 +30,13 @@ export class SpecialtyListComponent implements OnInit {
   }
 
   deleteSpecialty(s : Specialty) : void {
-    this.http.delete('http://localhost:5001/api/Specialtys/' + s.id).subscribe(() => {
+    this.http.delete('http://localhost:5001/api/specialtys/' + s.id).subscribe(() => {
       this.ngOnInit();
     })
   }
 
-  updateSpecialty() : void {
-    this.router.navigate(['/updateSpecialty']);
+  updateSpecialty(s : Specialty) : void {
+    this.DS.setSpecialty(s);
+    this.router.navigate(['/editSpecialty']);
   }
 }

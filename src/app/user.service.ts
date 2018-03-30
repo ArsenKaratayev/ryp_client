@@ -7,7 +7,7 @@ export class UserService {
 
   User : User;
 
-  getUser(): User {
+  getUser() : User {
     return this.User;
   }
   setUser(u : User) : void {

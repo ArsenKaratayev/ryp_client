@@ -19,7 +19,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get('http://localhost:5001/api/users').subscribe((data : User[]) => { 
-      this.Users = data;       
+      this.Users = data;     
+      // this.US.setUser(this.Users[0]);
+      // this.User = this.Users[0];
     })
     // let options: Intl.DateTimeFormatOptions = {
     //   day: "numeric", month: "numeric", year: "numeric",
@@ -36,6 +38,12 @@ export class AppComponent implements OnInit {
             break;
         }
     }
-    this.http.get('http://localhost:5001/api/users/' + id).subscribe((res : User) => { this.US.setUser(res); this.User = this.US.getUser(); console.log(this.US.getUser()) })
+    this.Password = null;
+    this.http.get('http://localhost:5001/api/users/' + id).subscribe((res : User) => { this.US.setUser(res); this.User = this.US.getUser(); })
+  }
+
+  logOut() : void {
+    this.US.setUser(undefined);
+    this.User = this.US.getUser();
   }
 }

@@ -13,25 +13,33 @@ import { SubjectListComponent } from './subjectList.component';
 import { CreateElectiveComponent } from './createElective.component';
 import { CreateSpecialtyComponent } from './createSpecialty.component';
 import { SpecialtyListComponent } from './specialtyList.component';
-import { LoginComponent } from './login.component';
 import { UserService } from './user.service';
+import { EditSubjectComponent } from './editSubject.component';
+import { DataService } from './data.service';
+import { EditElectiveComponent } from './editElective.component';
+import { EditSpecialtyComponent } from './editSpecialty.component';
+import { UserListComponent } from './userList.component';
+import { CreateUserComponent } from './createUser.component';
 
 const appRoutes: Routes = [
   { path : '', component : CreateRypComponent },
-  // { path : 'login', component : LoginComponent },
   { path : 'createSubject', component : CreateSubjectComponent },
   { path : 'createSpecialty', component : CreateSpecialtyComponent },
+  { path : 'createElective', component : CreateElectiveComponent },
+  { path : 'createUser', component : CreateUserComponent },
   { path : 'addSubject', component :  AddSubjectDialog },
   { path : 'print', component : PrintRypComponent },
   { path : 'subjectList', component : SubjectListComponent },
   { path : 'specialtyList', component : SpecialtyListComponent },
-  { path : 'createElective', component : CreateElectiveComponent },
+  { path : 'userList', component : UserListComponent },
+  { path : 'editSubject', component : EditSubjectComponent },
+  { path : 'editElective', component : EditElectiveComponent },
+  { path : 'editSpecialty', component : EditSpecialtyComponent },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    // LoginComponent,
     CreateSubjectComponent,
     CreateElectiveComponent,
     CreateRypComponent,
@@ -40,6 +48,11 @@ const appRoutes: Routes = [
     SubjectListComponent,
     CreateSpecialtyComponent,
     SpecialtyListComponent,
+    EditSubjectComponent,
+    EditElectiveComponent,
+    EditSpecialtyComponent,
+    UserListComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule, 
@@ -54,7 +67,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     // { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
-    UserService
+    UserService,
+    DataService
   ],
   bootstrap: [
     AppComponent, []

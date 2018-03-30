@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { SubjectHours, SubjectType, Subject } from './Subject';
 import { Router } from '@angular/router';
 import { ElectiveGroup } from './ElectiveGroup';
+import { UserService } from './user.service';
+import { User } from './User';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'subjectList',
@@ -11,7 +14,7 @@ import { ElectiveGroup } from './ElectiveGroup';
   providers: []
 })
 export class SubjectListComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private US : UserService, private DS : DataService) {
 
   }
   Subjects : Subject[] = [];
@@ -19,6 +22,7 @@ export class SubjectListComponent implements OnInit {
   ReqEl : boolean = true;
   Pre : Subject[] = [];
   showPre : boolean = false;
+  user : User = this.US.getUser();
 
   loadSubjects() : void {
     this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
@@ -56,17 +60,19 @@ export class SubjectListComponent implements OnInit {
     })
   }
 
-  updateSubject() : void {
-    this.router.navigate(['/updateSubject']);
+  updateSubject(s : Subject) : void {
+    this.DS.setSubject(s);
+    this.router.navigate(['/editSubject']);
   }
 
-  deleteElective(s : ElectiveGroup) : void {
-    this.http.delete('http://localhost:5001/api/electivegroups/' + s.id).subscribe(() => {
+  deleteElective(e : ElectiveGroup) : void {
+    this.http.delete('http://localhost:5001/api/electivegroups/' + e.id).subscribe(() => {
       this.ngOnInit();
     })
   }
   
-  updateElective() : void {
-    this.router.navigate(['/updateElective']);
+  updateElective(s : ElectiveGroup) : void {
+    this.DS.setElective(s);
+    this.router.navigate(['/editElective']);
   }
 }

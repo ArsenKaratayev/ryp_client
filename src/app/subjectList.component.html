@@ -23,7 +23,7 @@
                     <div style="float: left; width: 70px; padding-top: 12px; padding-bottom: 12px; text-align: center;">&nbsp;&nbsp;&nbsp;Уд.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ред.</div>
                 </div>
 
-                <div style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
+                <div style="background-color: #f4f5f6; margin: -5px 0px; max-height: 350px; min-height: 350px; overflow: scroll;">
                     <div *ngFor="let s of Subjects; let i = index" [attr.data-index]="i" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
                     1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -2.5px 0px;" [ngStyle]="{'background-color' : s.type.color }">
                         <div style="float: left; width: 30px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
@@ -34,15 +34,21 @@
                         <div style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
                         <div *ngIf="s.prerequisites.length == 0" style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
                         <div *ngIf="s.prerequisites.length != 0" (mouseenter)="mouseEnter(s.prerequisites)" (mouseleave)="mouseLeave()" style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
-                        <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
-                            <button style="padding-top: 9px;" class="remove" (click)="deleteSubject(s)">
-                                <img src="/assets/images/remove-icon.png" width="12px">
+                        <div *ngIf="user.id == s.user.id" style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5;">
+                            <button style="padding-top: 6px;" class="remove" (click)="deleteSubject(s)">
+                                <img src="/assets/images/bucket-icon.png" width="26px">
                             </button>
                         </div>
-                        <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
-                            <button style="padding-top: 9px;" class="remove" (click)="updateSubject(s)">
-                                <img src="/assets/images/add-icon.png" width="12px">
+                        <div *ngIf="user.id == s.user.id" style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5;">
+                            <button style="padding-top: 6px;" class="remove" (click)="updateSubject(s)">
+                                <img src="/assets/images/edit-icon.png" width="26px">
                             </button>
+                        </div>
+                        <div *ngIf="user.id != s.user.id" style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5;">
+                            <img style="padding-top: 6px;" src="/assets/images/access-icon.png" width="26px">
+                        </div>
+                        <div *ngIf="user.id != s.user.id" style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5;">
+                            <img style="padding-top: 6px;" src="/assets/images/access-icon.png" width="26px">
                         </div>
                     </div>
                 </div>
@@ -67,7 +73,7 @@
                     <div style="float: left; width: 70px; padding-top: 12px; padding-bottom: 12px; text-align: center;">&nbsp;&nbsp;&nbsp;Уд.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ред.</div>
                 </div>
 
-                <div style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
+                <div style="background-color: #f4f5f6; margin: -5px 0px; max-height: 350px; min-height: 350px; overflow: scroll;">
                     <div *ngFor="let s of Electives; let i = index" [attr.data-index]="i" style="display: inline-block; width: 100%; font-size: 14px; border-bottom: 
                     1px solid #e7eaec; color: #ffffff; font-weight: 300; margin: -2.5px 0px;" [ngStyle]="{'background-color' : s.type.color }">
                         <div style="float: left; width: 30px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
@@ -78,15 +84,21 @@
                         <div style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
                         <div *ngIf="s.prerequisites.length == 0" style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
                         <div *ngIf="s.prerequisites.length != 0" (mouseenter)="mouseEnter(s.prerequisites)" (mouseleave)="mouseLeave()" style="float: left; width: 110px; border-right: 1px solid #ffffff; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
-                        <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
-                            <button style="padding-top: 9px;" class="remove" (click)="deleteElective(s)">
-                                <img src="/assets/images/remove-icon.png" width="12px">
+                        <div *ngIf="user.id == s.user.id" style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
+                            <button style="padding-top: 6px;" class="remove" (click)="deleteElective(s)">
+                                <img src="/assets/images/bucket-icon.png" width="26px">
                             </button>
                         </div>
-                        <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
-                            <button style="padding-top: 9px;" class="remove" (click)="updateElective(s)">
-                                <img src="/assets/images/add-icon.png" width="12px">
+                        <div *ngIf="user.id == s.user.id" style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5; ">
+                            <button style="padding-top: 6px;" class="remove" (click)="updateElective(s)">
+                                <img src="/assets/images/edit-icon.png" width="26px">
                             </button>
+                        </div>
+                        <div *ngIf="user.id != s.user.id" style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5;">
+                            <img style="padding-top: 6px;" src="/assets/images/access-icon.png" width="26px">
+                        </div>
+                        <div *ngIf="user.id != s.user.id" style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5;">
+                            <img style="padding-top: 6px;" src="/assets/images/access-icon.png" width="26px">
                         </div>
                     </div>
                 </div>

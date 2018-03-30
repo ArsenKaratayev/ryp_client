@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Новая элективная группа</h2>
+    <h2>Элективная группа</h2>
     <div class="form-group">
         <div>Название</div>
         <input [(ngModel)]="Name" type="text" class="form-control">
@@ -11,7 +11,7 @@
     <div *ngFor="let e of Electives">
         {{e.name}}
         <button class="remove" (click)="deleteSubject(p)">
-            <img src="/assets/images/remove-icon.png" width="12px">
+            <img src="/assets/images/bucket-icon.png" width="14px">
         </button>
     </div>
     <button (click)="openDialog()" class="add-teacher-button" style="outline: none;">
@@ -23,6 +23,6 @@
     <br><br>
     <div class="form-group">
         <input (click)="save()" type="submit" value="Сохранить" class="btn btn-default">
-        <a href="/subjectList" class="btn btn-default">К списку</a>
+        <a routerLink="/subjectList" routerLinkActive="active" class="btn btn-default">К списку</a>
     </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>Новый предмет</h2>
+    <h2>Предмет</h2>
     <div class="form-group">
         <div>Название</div>
         <input [(ngModel)]="Name" type="text" class="form-control">
@@ -31,7 +31,7 @@
     <div *ngFor="let p of Prerequisites">
         {{p.name}}
         <button class="remove" (click)="deleteSubject(p)">
-            <img src="/assets/images/remove-icon.png" width="12px">
+            <img src="/assets/images/bucket-icon.png" width="14px">
         </button>
     </div>
     <button (click)="openDialog()" class="add-teacher-button" style="outline: none;">

@@ -2,7 +2,7 @@
     
     <!--PAGE HEADER-->
     <div style="width: 100%; display: inline-block; background-color: #ffffff; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
-        <div style="float: left; padding-top: 17px; padding-bottom: 17px;">Создание РУП</div>
+        <div style="float: left; padding-top: 17px; padding-bottom: 17px;">РУП</div>
         <div style="float: right; padding-top: 19px;">
             <div class="select-style" style="width: 90px; font-size: 14px;">
                 <select [(ngModel)]="Year" (ngModelChange)="onChangeYear($event)">
@@ -163,7 +163,7 @@
                         <div style="float: left; width: 30px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{i+1}}</div>
                         <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.shifr}}</div>
                         <div (mouseenter)="mouseEnter(s.subjects)" (mouseleave)="mouseLeave()" style="float: left; width: 440px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: left; padding-left: 15px; margin: -5px 0px;">{{s.name}}</div>
-                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code[0]}}</div>
+                        <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code}}</div>
                         <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
                         <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</div>
                         <div *ngIf="s.prerequisites.length == 0" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
