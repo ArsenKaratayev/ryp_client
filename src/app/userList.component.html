@@ -1,26 +1,37 @@
-<div style="width: 100%;">
-    <div style="width: 1024px; margin: 0 auto; padding-bottom: 50px;">
-        <div style="margin-top: 25px; margin-right: 147px; font-size: 15px;">
-            <a routerLink="/createUser" routerLinkActive="active">Добавить пользователя</a>
+<div style="min-height: 895px; background-color: #e7eaec; background-size: 100%;">
+    <div style="width: 100%; display: inline-block; background-color: #ffffff; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
+        <div style="float: left; padding-top: 17px; padding-bottom: 17px;">Пользователи</div>
+        <div style="float: right; padding-top: 17px; padding-bottom: 17px;">
+            <button (click)="createUser()" class="add-teacher-button" style="outline: none; font-size: 22px;">
+                <div style="display: inline-block;">
+                    <div style="float: left;"><img src="/assets/images/add-icon.png" width="22px"></div>
+                    <div style="padding-left: 10px; float: left; padding-top: 1px;">Добавить пользователя</div>
+                </div>
+            </button>
         </div>
-        <h2>Список пользователей</h2>
-        <table class="table">
-            <tr>
-                <th>Имя</th>
-                <th>Роль</th>
-                <th></th>
-            </tr>
-            
-            <tr *ngFor="let u of Users">
-                <td>{{u.name}}</td>
-                <!-- <td><p *ngIf="u.role == 1">Офис регистратор</p><td>
-                <td><p *ngIf="u.role == 2">Заведующий кафедрой</p><td> -->
-                <td>{{u.role}}</td>
-                <td>
-                    <a (click)="updateUser(u)">Изменить</a>
-                    <a (click)="deleteUser(u)">&nbsp;&nbsp;Удалить</a>
-                </td>
-            </tr>
-        </table>
+    </div>
+    <div style="width: 100%;">
+        <div style="width: 1280px; margin: 0 auto; padding-bottom: 50px;">
+            <div class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <div style="display: inline-block; width: 100%; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; font-size: 18px; color: #014d99;">
+                    <div style="float: left;">Список пользователей</div>
+                </div>
+                <div class="term-box-info-line" style="font-size: 14px;">
+                    <div class="term-box-info-line-item" style="width: 120px;">Номер п.</div>
+                    <div class="term-box-info-line-item" style="width: 152px">Роль</div>
+                    <div class="term-box-info-line-item" style="width: 466px;;">Имя</div>
+                    <div class="term-box-info-line-item" style="width: 246px; border-right: none;">Операции</div>
+                </div>
+                <div *ngFor="let u of Users; let i = index" [attr.data-index]="i" style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 120px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{i + 1}}</div>
+                    <div style="float: left; width: 152px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{u.role}}</div>
+                    <div style="float: left; width: 466px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{u.name}}</div>
+                    <div style="float: left; width: 246px; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                        <a (click)="updateUser(u)">Изменить&nbsp;</a>
+                        <a (click)="deleteUser(u)">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -5,6 +5,7 @@ import { Specialty } from './Specialty';
 import { UserService } from './user.service';
 import { User } from './User';
 import { DataService } from './data.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'specialtyList',
@@ -17,10 +18,19 @@ export class SpecialtyListComponent implements OnInit {
 
   }
   Specialtys : Specialty[] = [];
-  user : User = this.US.getUser();
+  user : string = this.US.getUser().id;
 
   loadSpecialtys() : void {
-    this.http.get('http://localhost:5001/api/specialtys').subscribe((data : Specialty[]) => { 
+    this.http.get(environment.apiUrl + '/api/specialtys')
+    .catch((res : any) => {
+      if (res.status == 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          this.US.setUser(undefined);
+          return window.location.href = "http://localhost:4200";
+      }   
+    })
+    .subscribe((data : Specialty[]) => { 
       this.Specialtys = data;
     })
   }
@@ -30,7 +40,7 @@ export class SpecialtyListComponent implements OnInit {
   }
 
   deleteSpecialty(s : Specialty) : void {
-    this.http.delete('http://localhost:5001/api/specialtys/' + s.id).subscribe(() => {
+    this.http.delete(environment.apiUrl + '/api/specialtys/' + s.id).subscribe(() => {
       this.ngOnInit();
     })
   }
@@ -38,5 +48,9 @@ export class SpecialtyListComponent implements OnInit {
   updateSpecialty(s : Specialty) : void {
     this.DS.setSpecialty(s);
     this.router.navigate(['/editSpecialty']);
+  }
+
+  createSpecialty() : void {
+    this.router.navigate(['/createSpecialty']);
   }
 }

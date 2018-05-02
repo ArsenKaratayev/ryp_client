@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SubjectHours, SubjectType, Subject } from './Subject';
+import { SubjectType, Subject } from './Subject';
 import { Specialty } from './Specialty';
 import { Ryp } from './Ryp';
 
@@ -9,13 +9,14 @@ import { Ryp } from './Ryp';
 //   styleUrls: ['./app.component.css']
 })
 
+
 export class PrintRypComponent implements OnInit {
 
     constructor() {  }
 
     ryp : Ryp;
-    even : Subject[][];
-    odd : Subject[][];
+    even : sem[] = [];
+    odd : sem[] = [];
     semestersCredits : number[] = [0, 0, 0, 0, 0, 0, 0, 0];
     creditsInfo : number[];
     elCreditsInfo : number[];
@@ -33,14 +34,28 @@ export class PrintRypComponent implements OnInit {
     ngOnInit(): void {
         if (localStorage.getItem('ryp') != null) {
             this.ryp = JSON.parse(localStorage.getItem('ryp'));
-            for (let i = 0; i < this.ryp.subjects.length; i++) {
-                for (let j = 0; j < this.ryp.subjects[i].length; j++) {
-                    this.semestersCredits[i] += this.ryp.subjects[i][j].credits;
+            for (let i = 0; i < this.ryp.semesters.length; i++) {
+                for (let j = 0; j < this.ryp.semesters[i].all.length; j++) {
+                    this.semestersCredits[i] += this.ryp.semesters[i].all[j].credits;
                 }
                 
             }
-            this.even = [this.ryp.subjects[1], this.ryp.subjects[3], this.ryp.subjects[5], this.ryp.subjects[7]];
-            this.odd = [this.ryp.subjects[0], this.ryp.subjects[2], this.ryp.subjects[4], this.ryp.subjects[6]];
+            this.even = [new sem(this.ryp.semesters[1].all, []), new sem(this.ryp.semesters[3].all, []), new sem(this.ryp.semesters[5].all, []), new sem(this.ryp.semesters[7].all, [])];
+            this.odd = [new sem(this.ryp.semesters[0].all, []), new sem(this.ryp.semesters[2].all, []), new sem(this.ryp.semesters[4].all, []), new sem(this.ryp.semesters[6].all, [])];
+            for (let i = 0; i < this.even.length; i++) {
+                this.even[i].number = [];
+                for (let j = 0; j < 7 - this.even[i].sem.length; j++) {
+                    this.even[i].number.push(1);
+                }
+            }
+
+            for (let i = 0; i < this.odd.length; i++) {
+                this.odd[i].number = [];
+                for (let j = 0; j < 7 - this.odd[i].sem.length; j++) {
+                    this.odd[i].number.push(1);
+                }
+            }
+            
 
             this.creditsInfo = JSON.parse(localStorage.getItem('creditsInfo'));
             this.GeneralCredits = this.creditsInfo[0];
@@ -56,4 +71,14 @@ export class PrintRypComponent implements OnInit {
         }
     }
     
+}
+
+
+export class sem {
+    sem : any[] = [];
+    number : number[] = [];
+    constructor(sem : any[], num: number[]) {
+        this.sem = sem;
+        this.number = num;
+    }
 }

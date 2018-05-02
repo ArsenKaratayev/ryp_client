@@ -1,0 +1,136 @@
+<div style="height: 895px; background-color: #e7eaec; background-size: 100%;">
+    <div style="width: 100%; display: inline-block; background-color: #ffffff; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
+        <div style="float: left; padding-top: 17px; padding-bottom: 17px;">РУПы</div>
+        <div style="float: right; padding-top: 17px; padding-bottom: 17px;">
+            <button *ngIf="user.role!='Admin'" (click)="createRyp()" class="add-teacher-button" style="outline: none; font-size: 22px;">
+                <div style="display: inline-block;">
+                    <div style="float: left;"><img src="/assets/images/add-icon.png" width="22px"></div>
+                    <div style="padding-left: 10px; float: left; padding-top: 1px;">Добавить РУП</div>
+                </div>
+            </button>
+            <button *ngIf="user.role=='Admin'" (click)="createRypPrototype()" class="add-teacher-button" style="outline: none; font-size: 22px;">
+                <div style="display: inline-block;">
+                    <div style="float: left;"><img src="/assets/images/add-icon.png" width="22px"></div>
+                    <div style="padding-left: 10px; float: left; padding-top: 1px;">Добавить прототип РУПа</div>
+                </div>
+            </button>
+        </div>
+    </div>
+    <div style="width: 100%;">
+        <div style="width: 1280px; margin: 0 auto; padding-bottom: 50px;">
+            <!-- Зав каф РУПЫ прототипы -->
+            <div *ngIf="user.role!='Admin'" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <div style="display: inline-block; width: 100%; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; font-size: 18px; color: #014d99;">
+                    <div style="float: left;">Список прототипов РУПов</div>
+                </div>
+                <div class="term-box-info-line" style="font-size: 14px;">
+                    <div class="term-box-info-line-item" style="width: 136px;">Шифр сп.</div>
+                    <div class="term-box-info-line-item" style="width: 456px;">Специальность</div>
+                    <div class="term-box-info-line-item" style="width: 146px;">Год</div>
+                    <div class="term-box-info-line-item" style="width: 246px; border-right: none;">Операции</div>
+                </div>
+                <div *ngFor="let r of PrototypeRyps; let i = index" [attr.data-index]="i" style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 136px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.shifr}}</div>
+                    <div style="float: left; width: 456px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.name}}</div>
+                    <div style="float: left; width: 146px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.year}}</div>
+                    <div style="float: left; width: 246px; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                        <a (click)="createByRypPrototype(r)">Наследоваться</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Админ РУПЫ прототипы -->
+            <div *ngIf="user.role=='Admin'" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <div style="display: inline-block; width: 100%; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; font-size: 18px; color: #014d99;">
+                    <div style="float: left;">Список прототипов РУПов</div>
+                </div>
+                <div class="term-box-info-line" style="font-size: 14px;">
+                    <div class="term-box-info-line-item" style="width: 136px;">Шифр сп.</div>
+                    <div class="term-box-info-line-item" style="width: 456px;">Специальность</div>
+                    <div class="term-box-info-line-item" style="width: 146px;">Год</div>
+                    <div class="term-box-info-line-item" style="width: 246px; border-right: none;">Операции</div>
+                </div>
+                <div *ngFor="let r of PrototypeRyps; let i = index" [attr.data-index]="i" style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 136px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.shifr}}</div>
+                    <div style="float: left; width: 456px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.name}}</div>
+                    <div style="float: left; width: 146px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.year}}</div>
+                    <div style="float: left; width: 246px; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                        <a *ngIf="user.id == r.userId" (click)="updateRypPrototype(r)">Изменить&nbsp;</a>
+                        <a *ngIf="user.id == r.userId" (click)="deleteRyp(r)">Удалить</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Зав каф РУПЫ -->
+            <div *ngIf="user.role!='Admin'" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <div style="display: inline-block; width: 100%; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; font-size: 18px; color: #014d99;">
+                    <div style="float: left;">Список РУПов</div>
+                </div>
+                <div class="term-box-info-line" style="font-size: 14px;">
+                    <div class="term-box-info-line-item" style="width: 136px;">Шифр сп.</div>
+                    <div class="term-box-info-line-item" style="width: 456px;">Специальность</div>
+                    <div class="term-box-info-line-item" style="width: 146px;">Год</div>
+                    <div class="term-box-info-line-item" style="width: 246px; border-right: none;">Операции</div>
+                </div>
+                <div *ngFor="let r of Ryps; let i = index" [attr.data-index]="i" style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 136px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.shifr}}</div>
+                    <div style="float: left; width: 456px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.name}}</div>
+                    <div style="float: left; width: 146px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.year}}</div>
+                    <div style="float: left; width: 246px; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                        <a *ngIf="user.id == r.userId && r.operatorCheck == 0" (click)="updateRyp(r)">Изменить&nbsp;</a>
+                        <a *ngIf="user.id == r.userId && r.operatorCheck == 0" (click)="deleteRyp(r)">Удалить</a>
+                        <a *ngIf="user.id == r.userId && r.operatorCheck == 0" (click)="checkRyp(r)">&nbsp;Подтвердить</a>
+                        <a *ngIf="user.id == r.userId && r.operatorCheck == 1" (click)="reRyp(r)">Убрать подтверждение</a>
+                        <a *ngIf="user.id != r.userId && r.operatorCheck == 1" (click)="reRyp(r)">-</a>
+                        <b *ngIf="user.id != r.userId && r.operatorCheck == 0" (click)="updateRyp(r)">-&nbsp;</b>
+                        <b *ngIf="user.id != r.userId && r.operatorCheck == 0" (click)="deleteRyp(r)">-</b>
+                        <b *ngIf="user.id != r.userId && r.operatorCheck == 0" (click)="checkRyp(r)">&nbsp;-&nbsp;</b>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Админ РУПЫ -->
+            <div *ngIf="user.role=='Admin'" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <div style="display: inline-block; width: 100%; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; font-size: 18px; color: #014d99;">
+                    <div style="float: left;">Список РУПов</div>
+                </div>
+                <div class="term-box-info-line" style="font-size: 14px;">
+                    <div class="term-box-info-line-item" style="width: 136px;">Шифр сп.</div>
+                    <div class="term-box-info-line-item" style="width: 456px;">Специальность</div>
+                    <div class="term-box-info-line-item" style="width: 146px;">Год</div>
+                    <div class="term-box-info-line-item" style="width: 246px; border-right: none;">Операции</div>
+                </div>
+                <div *ngFor="let r of Ryps; let i = index" [attr.data-index]="i" style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 136px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.shifr}}</div>
+                    <div style="float: left; width: 456px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.name}}</div>
+                    <div style="float: left; width: 146px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.year}}</div>
+                    <div style="float: left; width: 246px; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                        <a *ngIf="r.operatorCheck == 1 && user.role == 'Admin'" (click)="closeRyp(r)">Закрыть</a>
+                        <b *ngIf="user.id != r.userId && r.operatorCheck == 0" (click)="checkRyp(r)">-</b>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Закрытые РУПЫ -->
+            <div *ngIf="user.role=='Admin'" class="term-box" style="margin-top: 25px; margin-left: 147px; margin-right: 147px;">
+                <div style="display: inline-block; width: 100%; padding-top: 15px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px; font-size: 18px; color: #014d99;">
+                    <div style="float: left;">Список закрытых РУПов</div>
+                </div>
+                <div class="term-box-info-line" style="font-size: 14px;">
+                    <div class="term-box-info-line-item" style="width: 136px;">Шифр сп.</div>
+                    <div class="term-box-info-line-item" style="width: 456px;">Специальность</div>
+                    <div class="term-box-info-line-item" style="width: 146px;">Год</div>
+                    <div class="term-box-info-line-item" style="width: 246px; border-right: none;">Операции</div>
+                </div>
+                <div *ngFor="let r of CheckedRyps; let i = index" [attr.data-index]="i" style="display: inline-block; font-size: 14px; border-bottom: 1px solid #e7eaec; margin: -5px 0px;">
+                    <div style="float: left; width: 136px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.shifr}}</div>
+                    <div style="float: left; width: 456px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.specialty.name}}</div>
+                    <div style="float: left; width: 146px; text-align: center; padding-top: 10px; padding-bottom: 10px; border-right: 1px solid #e7eaec;" (click)="showRyp(r)">{{r.year}}</div>
+                    <div style="float: left; width: 246px; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                        <a *ngIf="r.isOpen == 0" (click)="openRyp(r)">Открыть</a>
+                        <b *ngIf="r.isOpen != 0">-</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

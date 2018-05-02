@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Specialty } from './Specialty';
 import { UserService } from './user.service';
 import { DataService } from './data.service';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'editSpecialty',
@@ -18,14 +19,15 @@ export class EditSpecialtyComponent {
 
     save() : void {
         if(this.Name == null) {
-            alert('Введите название специальности!');
-            return;
+            alert('Введите название специальности');
+        } else if(this.Shifr == null) {
+            alert('Введите шифр специальности');
         } else {
             this.http
-            .put('http://localhost:5001/api/specialtys/' + this.DS.getSpecialty().id, 
-                new Specialty(this.Name, this.Shifr, this.US.getUser()))
+            .put(environment.apiUrl + '/api/specialtys/' + this.DS.getSpecialty().id, 
+                new Specialty(this.Name, this.Shifr, this.US.getUser().id), {responseType: 'text'})
             .subscribe(() => {
-                console.log('here!');
+                this.router.navigate(['/specialtyList']);
             })
         }
     }

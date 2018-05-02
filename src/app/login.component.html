@@ -1,0 +1,40 @@
+<div *ngIf="error == true" style="color: red; text-align: center">
+    <h4>{{ErrorMessage}}</h4>
+</div>
+<div style="width: 100%; display: inline-block; background-color: #e7eaec; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
+    <div style="float: left; padding-top: 17px; padding-bottom: 17px;">Вход</div>
+</div>
+<div class="container">
+    <h2 style="color : #014d99">Вход</h2>
+    <div class="form-group">
+        <div>Введите имя</div>
+        <input [(ngModel)]="Name" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <div>Введите пароль</div>
+        <input [(ngModel)]="Password" type="password" class="form-control">
+    </div>
+    <div class="form-group">
+        <input (click)="login()" type="submit" value="Войти" class="btn btn-primary wd">
+    </div>
+</div>
+
+<style>
+    .container {
+        margin-top: 20px;
+        text-align: center;
+        background-color: #e7eaec;
+        width : 450px;
+        padding-bottom: 20px;
+        color : #014d99
+    }
+    .wd {
+        width : 150px;
+        background-color: #014d99;
+    }
+    .form-control {
+        width : 150px;
+        text-align: center;
+        display: inline;
+    }
+</style>

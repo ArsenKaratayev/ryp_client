@@ -1,23 +1,49 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/Rx';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SubjectType, Subject } from './Subject';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Specialty } from './Specialty';
 import { Ryp, Semester } from './Ryp';
 import { ElectiveGroup } from './ElectiveGroup';
 import { UserService } from './user.service';
 import { environment } from '../environments/environment';
 import { DataService } from './data.service';
+import { AddSubjectDialog } from './createRyp.component';
 
 @Component({
-  selector: 'createRyp',
-  templateUrl: './createRyp.component.html',
+  selector: 'editRyp',
+  templateUrl: './editRyp.component.html',
   styleUrls: ['./app.component.css']
 })
-export class CreateRypComponent implements OnInit {
+export class EditRypComponent implements OnInit {
     constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private US : UserService, private DS : DataService) {  }
+
+    SubjectsForSave : Subject[][] = [[], [], [], [], [], [], [], []];
+    ElectivesForSave : ElectiveGroup[][] = [[], [], [], [], [], [], [], []];
+    Electives : ElectiveGroup[] = [];
+    Subjects : Subject[] = [];
+    ConstSubjects : Subject[] = [];
+    Semesters : Semester[];
+    Specialty : Specialty;
+    Year : string;
+    GeneralCredits : number = 0;
+    BaseCredits : number = 0;
+    ProfilingCredits : number = 0;
+    PractiseCredits : number = 6;
+    AttestationCredits : number = 3;
+    TotalCredits : number = 9;
+    GeneralElCredits : number = 0;
+    BaseElCredits : number = 0;
+    ProfilingElCredits : number = 0;
+    TotalElCredits : number = 0;
+    SemBtns : number[] = [1, 2, 3, 4, 5, 6, 7, 8];
+    semesterNumber : number = 1;
+    semesterCredits : number = 0;
+    Pre : Subject[] = [];
+    showPre : boolean = false;
+    semesterCreditsMessage : string = "";
 
     openDialog(): void {
         let dialogRef = this.dialog.open(AddSubjectDialog, {    
@@ -33,41 +59,8 @@ export class CreateRypComponent implements OnInit {
             }
         });
     }
-    
-    Ryps : Ryp[] = [];
-    Semesters : Semester[] = [];
-    SubjectsForSave : Subject[][] = [[], [], [], [], [], [], [], []];
-    ElectivesForSave : ElectiveGroup[][] = [[], [], [], [], [], [], [], []];
-    Electives : ElectiveGroup[] = [];
-    Subjects : Subject[] = [];
-    ConstSubjects : Subject[] = [];
-    Specialtys : Specialty[] = [];
-    Specialty : Specialty;
-    Years : string[] = ["2018-2019", "2019-2020", "2020-2021"];
-    Year : string = this.Years[0];
-    GeneralCredits : number = 0;
-    BaseCredits : number = 0;
-    ProfilingCredits : number = 0;
-    PractiseCredits : number = 6;
-    AttestationCredits : number = 3;
-    TotalCredits : number = 9;
-    GeneralElCredits : number = 0;
-    BaseElCredits : number = 0;
-    ProfilingElCredits : number = 0;
-    TotalElCredits : number = 0;
-    SemBtns : number[] = [1, 2, 3, 4, 5, 6, 7, 8];
-    semesterNumber : number = 1;
-    semesterCredits : number = 0;
-    update : boolean = false;
-    Pre : Subject[] = [];
-    showPre : boolean = false;
-    semesterCreditsMessage : string = "";
-    prototype : boolean;
 
     loadSubjects() : void {
-        // this.ConstSubjects = this.DS.getSubjects();
-        // this.Subjects = this.ConstSubjects;
-        // this.loadSpecialtys();
         this.http.get(environment.apiUrl + '/api/subjects')
         .catch((res : any) => {
             if (res.status == 401) {
@@ -78,33 +71,16 @@ export class CreateRypComponent implements OnInit {
             }   
         })
         .subscribe((data : Subject[]) => { 
-            this.ConstSubjects = data;
+            for (let i = 0; i < this.SubjectsForSave.length; i++) {
+                for (let j = 0; j < this.SubjectsForSave[i].length; j++) {
+                    data.splice(data.map((el)=>el.id).indexOf(this.SubjectsForSave[i][j].id), 1)
+                }
+            }
             this.Subjects = data;
-            this.loadSpecialtys();
-        })
-    }
-    loadSpecialtys() : void {
-        // this.Specialtys = this.DS.getSpecialtys();
-        // this.Specialty = this.Specialtys[0];
-        // this.loadElectives();
-        this.http.get(environment.apiUrl + '/api/specialtys')
-        .catch((res : any) => {
-            if (res.status == 401) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                this.US.setUser(undefined);
-                return window.location.href = "http://localhost:4200";
-            }   
-        })
-        .subscribe((data : Specialty[]) => {
-            this.Specialtys = data;
-            // this.Specialty = this.Specialtys[0];
             this.loadElectives();
         })
     }
     loadElectives() : void {
-        // this.Electives = this.DS.getElectives();
-        // this.loadRyps();
         this.http.get(environment.apiUrl + '/api/electivegroups')
         .catch((res : any) => {
             if (res.status == 401) {
@@ -115,6 +91,11 @@ export class CreateRypComponent implements OnInit {
             }   
         })
         .subscribe((data : ElectiveGroup[]) => { 
+            for (let i = 0; i < this.ElectivesForSave.length; i++) {
+                for (let j = 0; j < this.ElectivesForSave[i].length; j++) {
+                    data.splice(data.map((el)=>el.id).indexOf(this.ElectivesForSave[i][j].id), 1)
+                }
+            }
             this.Electives = data;
             for (let i = 0; i < this.Electives.length; i++) {
                 var arr = [];
@@ -128,43 +109,16 @@ export class CreateRypComponent implements OnInit {
                 }
                 this.Electives[i].prerequisites = arr
             }
-            this.loadRyps();
         })
     }
-    loadRyps() : void {
-        // this.Ryps = this.DS.getRyps();
-        // this.setRyp();
-        this.http.get(environment.apiUrl + '/api/ryps')
-        .catch((res : any) => {
-            if (res.status == 401) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                this.US.setUser(undefined);
-                return window.location.href = "http://localhost:4200";
-            }   
-        })
-        .subscribe((data : Ryp[]) => {
-            this.Ryps = data;
-            this.setRyp();
-        })
-    }
-    setRyp() : void {
-        this.update = false;
-        this.Subjects = this.ConstSubjects;
-        for (let k = 0; k < this.Ryps.length; k++) {
-            if (this.Ryps[k].specialty.id == this.Specialty.id && this.Ryps[k].year == this.Year && this.Ryps[k].prototype == 0) {
-                this.update = true;
-            }
-        }
-    }
+
     ngOnInit(): void {
-        for (let i = 0; i < 8; i++) {
-            this.Semesters.push(new Semester([], [], []));
-        }
-        if (this.DS.getRypPrototype() != undefined) {
-            this.Specialty = this.DS.getRypPrototype().specialty;
-            this.Year = this.DS.getRypPrototype().year;
-            this.Semesters = this.DS.getRypPrototype().semesters;
+        if (this.DS.getRyp() == undefined) {
+            window.location.href = "http://localhost:4200"
+        } else {
+            this.Semesters = this.DS.getRyp().semesters;
+            this.Specialty = this.DS.getRyp().specialty;
+            this.Year = this.DS.getRyp().year;
             for (let i = 0; i < this.Semesters.length; i++) {
                 this.Semesters[i].all = [];
                 for (let j = 0; j < this.Semesters[i].subjects.length; j++) {
@@ -190,8 +144,8 @@ export class CreateRypComponent implements OnInit {
             }
             this.calculateCredits();
             this.setSemester(1);
+            this.loadSubjects();
         }
-        this.loadSubjects();
     }
     calculateCredits() : void {
         for (let i = 0; i < this.Semesters.length; i++) {
@@ -206,27 +160,6 @@ export class CreateRypComponent implements OnInit {
                 this.TotalCredits += this.Semesters[i].all[j].credits;
                 this.semesterCredits += this.Semesters[i].all[j].credits;
             }
-        }
-    }
-    onChangeSpecialty(sp : Specialty) : void {
-        this.Specialty = sp;
-        this.setRyp();
-    }
-    onChangeYear(y : string) : void {
-        this.Year = y;
-        this.setRyp();
-    }
-    setSemester(sb : number) : void {
-        this.semesterNumber = sb;
-        this.semesterCredits = 0;
-        var size = this.Semesters[this.semesterNumber - 1].all.length;
-        for (var i = 0; i < size; i++) {
-            this.semesterCredits += this.Semesters[this.semesterNumber - 1].all[i].credits;
-        }
-        if (this.semesterCredits > 22) {
-            this.semesterCreditsMessage = "Слишком много кредитов"
-        } else {
-            this.semesterCreditsMessage = ""
         }
     }
     addSubject(s : any) : void {
@@ -311,6 +244,19 @@ export class CreateRypComponent implements OnInit {
         }
         this.setSemester(this.semesterNumber)
     }
+    setSemester(sb : number) : void {
+        this.semesterNumber = sb;
+        this.semesterCredits = 0;
+        var size = this.Semesters[this.semesterNumber - 1].all.length;
+        for (var i = 0; i < size; i++) {
+            this.semesterCredits += this.Semesters[this.semesterNumber - 1].all[i].credits;
+        }
+        if (this.semesterCredits > 22) {
+            this.semesterCreditsMessage = "Слишком много кредитов"
+        } else {
+            this.semesterCreditsMessage = ""
+        }
+    }
     mouseEnter(pre : Subject[]) : void {
         this.showPre = true;
         this.Pre = pre;
@@ -318,6 +264,17 @@ export class CreateRypComponent implements OnInit {
     
     mouseLeave() : void {
         this.showPre = false;
+    }
+    goToPrint() : void {
+        if (this.Specialty != null && this.Year != null && this.Semesters != null) {
+            var ryp = new Ryp(this.Specialty, this.Year, this.Semesters, this.US.getUser().id);
+            localStorage.setItem('ryp', JSON.stringify(ryp));
+            var creditsInfo = [this.GeneralCredits, this.BaseCredits, this.ProfilingCredits, this.TotalCredits];
+            localStorage.setItem('creditsInfo', JSON.stringify(creditsInfo));
+            var elCreditsInfo = [this.GeneralElCredits, this.BaseElCredits, this.ProfilingElCredits, this.TotalElCredits];
+            localStorage.setItem('elCreditsInfo', JSON.stringify(elCreditsInfo));
+            this.router.navigate(['/print']);
+        }
     }
     checkSemesters() : boolean {
         for (let i = 0; i < this.Semesters.length; i++) {
@@ -331,21 +288,6 @@ export class CreateRypComponent implements OnInit {
         }
         return true;
     }
-    // goToPrint() : void {
-    //     if (this.Specialty != null && this.Year != null && this.Semesters != null) {
-    //         for (let i = 0; i < this.Semesters.length; i++) {
-    //             this.Semesters[i].subjects = this.SubjectsForSave[i];
-    //             this.Semesters[i].electives = this.ElectivesForSave[i];
-    //         }
-    //         var ryp = new Ryp(this.Specialty, this.Year, this.Semesters, this.US.getUser().id);
-    //         localStorage.setItem('ryp', JSON.stringify(ryp));
-    //         var creditsInfo = [this.GeneralCredits, this.BaseCredits, this.ProfilingCredits, this.TotalCredits];
-    //         localStorage.setItem('creditsInfo', JSON.stringify(creditsInfo));
-    //         var elCreditsInfo = [this.GeneralElCredits, this.BaseElCredits, this.ProfilingElCredits, this.TotalElCredits];
-    //         localStorage.setItem('elCreditsInfo', JSON.stringify(elCreditsInfo));
-    //         this.router.navigate(['/print']);
-    //     }
-    // }
     save() : void {
         if(this.Specialty == null) {
             alert('Выберите специальность');
@@ -361,165 +303,12 @@ export class CreateRypComponent implements OnInit {
                 this.Semesters[i].electives = this.ElectivesForSave[i];
             }
             var ryp = new Ryp(this.Specialty, this.Year, this.Semesters, this.US.getUser().id);
+            console.log(ryp)
             this.http
-                .post(environment.apiUrl + '/api/ryps', ryp, {responseType: 'text'})
+                .put(environment.apiUrl + '/api/ryps/' + this.DS.getRyp().id, ryp, {responseType: 'text'})
                 .subscribe(() => {
                     this.router.navigate(['']);
             })
-        }
-    }
-}
-
-
-@Component({
-    selector: 'addSubject',
-    templateUrl: 'addSubject.dialog.html',
-})
-export class AddSubjectDialog implements OnInit {
-    constructor(public dialogRef: MatDialogRef<AddSubjectDialog>, @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-    ExportSubjects : Subject[] = [];
-    Subject : Subject;
-    Subjects : Subject[] = this.data.Subjects;
-    Elective : ElectiveGroup;
-    Electives : ElectiveGroup[] = this.data.Electives;
-    ReqEl : boolean = true;
-    Type : boolean = this.data.type;
-    Export : any[] = [];
-    PreSubs : Subject[][] = this.data.PreSubs;
-    semNum : number = this.data.Sem;
-    filter : string;
-    VisibleSubjects : Subject[] = [];
-    VisibleElectives : ElectiveGroup[] = [];
-
-    ngOnInit(): void {
-        if (this.Type) {
-            var arr = [];
-            for (let i = 0; i < this.Subjects.length; i++) {
-                if (this.Subjects[i].prerequisites.length > 0) {
-                    var t = 0;
-                    for (let j = 0; j < this.PreSubs.length; j++) {
-                        if (j + 1 < this.semNum) {
-                            for (let k = 0; k < this.PreSubs[j].length; k++) {
-                                if (this.Subjects[i].prerequisites.map((el)=>el.id).indexOf(this.PreSubs[j][k].id) != -1) {
-                                    t++;
-                                    if (this.Subjects[i].prerequisites.length == t) {
-                                        arr.push(this.Subjects[i])
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    arr.push(this.Subjects[i])
-                }
-            }
-            this.Subjects = arr;
-
-            var arr = [];
-            for (let i = 0; i < this.Electives.length; i++) {
-                this.Electives[i].lec = 0;
-                this.Electives[i].lab = 0;
-                if (this.Electives[i].prerequisites.length > 0) {
-                    var t = 0;
-                    for (let j = 0; j < this.PreSubs.length; j++) {
-                        if (j + 1 < this.semNum) {
-                            for (let k = 0; k < this.PreSubs[j].length; k++) {
-                                if (this.Electives[i].prerequisites.map((el)=>el.id).indexOf(this.PreSubs[j][k].id) != -1) {
-                                    t++;
-                                    if (this.Electives[i].prerequisites.length == t) {
-                                        arr.push(this.Electives[i])
-                                    }
-                                }
-                            }
-                        }
-                        
-                    }
-                } else {
-                    arr.push(this.Electives[i])
-                }
-            }
-            this.Electives = arr;
-            
-        }  
-        this.VisibleSubjects = this.Subjects;
-        this.VisibleElectives = this.Electives; 
-    }
-
-    addExport(s : any) : void {
-        if (this.Type) {
-            s.type.color = 'black';
-        }
-        if (this.Export.indexOf(s) != -1) {
-            this.returnStyle(s);
-            this.Export.splice(this.Export.indexOf(s), 1);
-        } else {
-            this.Export.push(s);
-        }
-    }
-
-    deleteExport(s : any) : void {
-        this.Export.splice(this.Export.indexOf(s), 1);
-    }
-
-    onChange() : void {
-        this.VisibleSubjects = this.Subjects;
-        this.VisibleElectives = this.Electives;
-        var arr = [];
-        for (let i = 0; i < this.Subjects.length; i++) {
-            if (this.Subjects[i].name.indexOf(this.filter) != -1 || this.Subjects[i].name.indexOf(this.filter[0].toUpperCase() + this.filter.substring(1, this.filter.length)) != -1) {
-                arr.push(this.Subjects[i]);
-            }
-        }
-        this.VisibleSubjects = arr;
-        if (this.Type) {
-            var arr = [];
-            for (let i = 0; i < this.Electives.length; i++) {
-                if (this.Electives[i].name.indexOf(this.filter) != -1 || this.Subjects[i].name.indexOf(this.filter[0].toUpperCase() + this.filter.substring(1, this.filter.length)) != -1) {
-                    arr.push(this.Electives[i]);
-                }
-            }
-            this.VisibleElectives = arr;
-        }
-    }
-
-    changeToReq() : void {
-        this.ReqEl = true;
-    }
-    changeToEl() : void {
-        this.ReqEl = false;
-    }
-
-    closeDialog() : void {
-        for (let i = 0; i < this.Export.length; i++) {
-            this.returnStyle(this.Export[i]);
-        }
-        if (this.Type) {
-            this.dialogRef.close(this.Export);
-        } else {
-            if (this.Subject != undefined) {
-                this.dialogRef.close(this.Subject);
-            } else {
-                this.dialogRef.close();
-            }
-        }
-    }
-    otm() : void {
-        for (let i = 0; i < this.Export.length; i++) {
-            this.returnStyle(this.Export[i]);
-        }
-        this.dialogRef.close();
-    }
-
-    returnStyle(s : any) : void {
-        if (s.type.name == "Базовая") {
-            s.type.color = "#64B5F6";
-        } else if (s.type.name == "Профилирующая") {
-            s.type.color = "#7986CB";
-        } else if (s.type.name == "Общеобразовательная") {
-            s.type.color = "#81C784";
-        } else {
-            s.type.color = "#FF7043";
         }
     }
 }

@@ -1,48 +1,71 @@
-<div class="container">
-    <h2>Предмет</h2>
-    <div class="form-group">
-        <div>Название</div>
-        <input [(ngModel)]="Name" type="text" class="form-control">
+<div style="min-height: 895px; background-color: #e7eaec; background-size: 100%;">
+    <div style="width: 100%; display: inline-block; background-color: #ffffff; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
+        <div style="float: left; padding-top: 17px; padding-bottom: 17px;">Добавить предмет</div>
     </div>
-    <div class="form-group">
-        <div>Шифр</div>
-        <input [(ngModel)]="Shifr" type="text" class="form-control">
-    </div>
-    <div class="form-group">
-        <div>Количество лекций</div>
-        <input [(ngModel)]="Lec" type="number" class="form-control">
-    </div>
-        <div class="form-group">
-        <div>Количество лабораторных</div>
-        <input [(ngModel)]="Lab" type="number" class="form-control">
-    </div>
-    <div class="form-group">
-        <div>Количество практик</div>
-        <input [(ngModel)]="Pr" type="number" class="form-control">
-    </div>
-    <div class="form-group">
-        <div>Тип</div>
-        <select [(ngModel)]="Type" class="form-control">
-            <option value="Общеобразовательная">Общеобразовательная</option>
-            <option value="Базовая">Базовая</option>
-            <option value="Базовая">Профилирующая</option>
-        </select>
-    </div>
-    <div *ngFor="let p of Prerequisites">
-        {{p.name}}
-        <button class="remove" (click)="deleteSubject(p)">
-            <img src="/assets/images/bucket-icon.png" width="14px">
-        </button>
-    </div>
-    <button (click)="openDialog()" class="add-teacher-button" style="outline: none;">
-        <div style="display: inline-block;">
-            <div style="float: left;"><img src="/assets/images/add-icon.png" width="18px"></div>
-            <div style="padding-left: 10px; float: left; padding-top: 1px;">ДОБАВИТЬ ПРЕРЕКВИЗИТ</div>
+    <div class="container" style="padding-left: 35px;">
+        <div class="form-group" style="padding-top: 30px; display: inline-block;">
+            <div style="display: inline-block; padding-right: 150px;">Название</div>
+            <input [(ngModel)]="Name" type="text" class="form-control">
         </div>
-    </button>
-    <br><br>
-    <div class="form-group">
-        <input (click)="save()" type="submit" value="Сохранить" class="btn btn-default">
-        <a routerLink="/subjectList" routerLinkActive="active" class="btn btn-default">К списку</a>
+        <div class="form-group">
+            <div style="display: inline-block; padding-right: 175px;">Шифр</div>
+            <input [(ngModel)]="Shifr" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <div style="display: inline-block; padding-right: 72px;">Количество лекций</div>
+            <input [(ngModel)]="Lec" type="number" class="form-control">
+        </div>
+        <div class="form-group">
+            <div style="display: inline-block; padding-right: 14px;">Количество лабораторных</div>
+            <input [(ngModel)]="Lab" type="number" class="form-control">
+        </div>
+        <div class="form-group">
+            <div style="display: inline-block; padding-right: 64px;">Количество практик</div>
+            <input [(ngModel)]="Pr" type="number" class="form-control">
+        </div>
+        <div class="form-group">
+            <div style="display: inline-block; padding-right: 197px;">Тип</div>
+            <select [(ngModel)]="Type" class="form-control">
+                <option value="Общеобразовательная">Общеобразовательная</option>
+                <option value="Базовая">Базовая</option>
+                <option value="Профилирующая">Профилирующая</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="Prerequisites.length > 0">
+            <div style="display: inline-block; padding-right: 112px;">Пререквизиты</div>
+            <div *ngFor="let p of Prerequisites" style="display: inline-block; padding-right: 12px;">
+                {{p.name}}
+                <button class="remove" (click)="deleteSubject(p)">
+                    <img src="/assets/images/bucket-icon.png" width="14px" style="padding-bottom: 3.5px;">
+                </button>
+            </div>
+        </div>
+        <button (click)="openDialog()" class="add-teacher-button" style="outline: none;">
+            <div style="display: inline-block;">
+                <div style="float: left;"><img src="/assets/images/add-icon.png" width="18px"></div>
+                <div style="padding-left: 10px; float: left; font-size: 14px;">ДОБАВИТЬ ПРЕРЕКВИЗИТ</div>
+            </div>
+        </button>
+        <br>
+        <div class="form-group" style="float: right; margin-right: 31px;">
+            <input (click)="save()" type="submit" value="Сохранить" class="btn btn-default" style="width: 150px;">
+            <a routerLink="/subjectList" routerLinkActive="active" class="btn btn-default" style="width: 150px;">К списку</a>
+        </div>
     </div>
 </div>
+
+
+<style>
+    .container {
+        margin-top: 30px;
+        background-color: #ffffff;
+        width : 860px;
+        padding-bottom: 30px;
+        font-size: 120%;
+    }
+    .form-control {
+        width : 550px;
+        text-align: center;
+        display: inline;
+    }
+</style>

@@ -1,4 +1,4 @@
-import { SubjectType, SubjectHours, Subject } from "./Subject";
+import { SubjectType, Subject } from "./Subject";
 import { User } from "./User";
 
 export interface IElectiveGroup {
@@ -9,32 +9,23 @@ export class ElectiveGroup implements IElectiveGroup {
     id :  number;
     name : string;
     type : SubjectType;
-    hours : SubjectHours;
+    pr : number;
+    lec : number;
+    lab : number;
     credits : number;
     shifr : string;
-    subjects : Subject[];
-    prerequisites : Subject[];
-    user : User;
+    subjects : Subject[] = [];
+    prerequisites : Subject[] = [];
+    userId : string;
 
-    constructor(name : string, type : SubjectType, hours : SubjectHours, shifr : string, sub : Subject[], user : User) {
+    constructor(name : string, type : SubjectType, pr : number, shifr : string, sub : Subject[], user : string) {
         this.id;
         this.name = name;
         this.type = type;
-        this.hours = hours;
-        this.credits = hours.lec+hours.lab+hours.pr;
+        this.pr = pr;
+        this.credits = pr;
         this.shifr = shifr;
         this.subjects = sub;
-        var arr = [];
-        for (let i = 0; i < sub.length; i++) {
-            if (sub[i].prerequisites != null) {
-                for (let j = 0; j < sub[i].prerequisites.length; j++) {
-                    if (arr.map((el)=>el.id).indexOf(sub[i].prerequisites[j].id) == -1) {
-                        arr.push(sub[i].prerequisites[j])
-                    }
-                }
-            }
-        }
-        this.prerequisites = arr;
-        this.user = user;
+        this.userId = user;
     }
 }

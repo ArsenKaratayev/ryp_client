@@ -81,14 +81,22 @@
                             <tr>
                                 <td colspan="7" align="center" style="padding-top: 5px; padding-bottom: 5px; font-weight: 600; font-size: 9px;">{{2 * i + 1}} семестр</td>
                             </tr>
-                            <tr *ngFor="let s of sem">
+                            <tr *ngFor="let s of sem.sem">
                                 <td style="padding: 4px;">{{s.shifr}}</td>
                                 <td>{{s.name}}</td>
                                 <td align="center">{{s.type.code}}</td>
                                 <td align="center">{{s.credits}}</td>
-                                <td align="center">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</td>
-                                <td *ngIf="s.prerequisites == null" align="center">нет</td>
-                                <td *ngIf="s.prerequisites != null" align="center">да</td>
+                                <td align="center">{{s.lec + '/' + s.lab + '/' + s.pr}}</td>
+                                <td *ngIf="s.prerequisites.length == 0 || s.prerequisites == null" align="center">нет</td>
+                                <td *ngIf="s.prerequisites.length != 0" align="center">да</td>
+                            </tr>
+                            <tr *ngFor="let n of sem.number">
+                                <td style="padding-bottom: 19px;"></td>
+                                <td></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
                             </tr>
                             <tr>
                                 <td colspan="2" align="center" style="padding: 4px; font-weight: 600;">Всего:</td>
@@ -97,10 +105,6 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-                            <!-- <tr ng-repeat="add in sem.additions">
-                                <td colspan="7" height="19px;"></td>
-                            </tr>
-                            <tr ng-repeat-end></tr> -->
                         </ng-container>
                     </table>
                 </div>
@@ -120,14 +124,22 @@
                             <tr>
                                 <td colspan="7" align="center" style="padding-top: 5px; padding-bottom: 5px; font-weight: 600; font-size: 9px;">{{2 * (i+1)}} семестр</td>
                             </tr>
-                            <tr *ngFor="let s of sem">
+                            <tr *ngFor="let s of sem.sem">
                                 <td style="padding: 4px;">{{s.shifr}}</td>
                                 <td>{{s.name}}</td>
                                 <td align="center">{{s.type.code}}</td>
                                 <td align="center">{{s.credits}}</td>
-                                <td align="center">{{s.hours.lec + '/' + s.hours.lab + '/' + s.hours.pr}}</td>
+                                <td align="center">{{s.lec + '/' + s.lab + '/' + s.pr}}</td>
                                 <td *ngIf="s.prerequisites == null" align="center">нет</td>
                                 <td *ngIf="s.prerequisites != null" align="center">да</td>
+                            </tr>
+                            <tr *ngFor="let n of sem.number">
+                                <td style="padding-bottom: 19px;"></td>
+                                <td></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
+                                <td align="center"></td>
                             </tr>
                             <tr>
                                 <td colspan="2" align="center" style="padding: 4px; font-weight: 600;">Всего:</td>
@@ -145,7 +157,7 @@
                 </div>
             </div>
         </div>
-        <div style="display: inline-block; width: 100%; margin-top: 10px;">
+        <div style="display: inline-block; width: 100%; margin-top: 10px; margin-left: -3px;">
             <div style="float: left; width: 50%;">
                 <div align="center">
                     <table>
@@ -218,7 +230,7 @@
                     </table>
                 </div>
             </div>
-            <div style="float: left; width: 50%;">
+            <div style="float: left; width: 50%; margin-left: -2px;">
                 <div align="center">
                     <table>
                         <tr>
@@ -279,3 +291,6 @@
     </div>
 </section>
     
+<section style="height: 297mm; width: 210mm;">
+
+</section>

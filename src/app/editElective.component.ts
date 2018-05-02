@@ -1,12 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SubjectHours, SubjectType, Subject } from './Subject';
+import { SubjectType, Subject } from './Subject';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { AddSubjectDialog } from './createRyp.component';
 import { ElectiveGroup } from './ElectiveGroup';
 import { UserService } from './user.service';
 import { DataService } from './data.service';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'editElective',
@@ -38,7 +39,7 @@ export class EditElectiveComponent implements OnInit {
     }
 
     loadSubjects() : void {
-        this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
+        this.http.get(environment.apiUrl + '/api/subjects').subscribe((data : Subject[]) => { 
             this.Subjects = data;   
             this.ConstSubjects = data;    
         })
@@ -79,14 +80,16 @@ export class EditElectiveComponent implements OnInit {
 
     save() : void {
         if(this.Name == null) {
-            alert('Введите название предмета!');
-            return;
+            alert('Введите название элективной группы');
+        } else if(this.Shifr == null) {
+            alert('Введите шифр элективной группы');
         } else {
             this.http
-                .put('http://localhost:5001/api/electivegroups/' + this.DS.getElective().id, 
-                    new ElectiveGroup(this.Name, this.Type, new SubjectHours(0, 0, this.Pr), this.Shifr, this.Electives, this.US.getUser()))
+                .put(environment.apiUrl + '/api/electivegroups/' + this.DS.getElective().id, 
+                    new ElectiveGroup(this.Name, this.Type, this.Pr, this.Shifr, this.Electives, this.US.getUser().id),
+                    {responseType: 'text'})
                 .subscribe(() => {
-                    console.log('here!');
+                    this.router.navigate(['/subjectList']);
             })
         }
     }

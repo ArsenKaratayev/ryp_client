@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { User } from './User';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
+import { environment } from '../environments/environment';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -10,40 +12,40 @@ import { UserService } from './user.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router, private US : UserService) { }
+  constructor(private http: HttpClient, private router: Router, private US : UserService, private DS : DataService) { }
   
-  User : User;
-  Name : string;
-  Password : string;
-  Users : User[] = [];
+  User : User = this.US.getUser();;
+  Token : string;
 
   ngOnInit(): void {
-    this.http.get('http://localhost:5001/api/users').subscribe((data : User[]) => { 
-      this.Users = data;     
-      // this.US.setUser(this.Users[0]);
-      // this.User = this.Users[0];
-    })
-    // let options: Intl.DateTimeFormatOptions = {
-    //   day: "numeric", month: "numeric", year: "numeric",
-    //   hour: "2-digit", minute: "2-digit"
-    // };
-    // console.log(new Date().toLocaleDateString("en-GB", options))
+    var user = localStorage.getItem('user');
+    if (user) {
+      this.User = JSON.parse(user);
+      this.US.setUser(this.User);
+    } else {
+      this.logOut();
+    }
   }
 
-  login() : void {
-    var id;
-    for (let i = 0; i < this.Users.length; i++) {
-        if (this.Users[i].name == this.Name && this.Users[i].password == this.Password) {
-            id = this.Users[i].id;
-            break;
-        }
-    }
-    this.Password = null;
-    this.http.get('http://localhost:5001/api/users/' + id).subscribe((res : User) => { this.US.setUser(res); this.User = this.US.getUser(); })
-  }
+  // login() : void {
+  //   this.http.post(environment.apiUrl + '/api/token', { username : this.Name, password : this.Password}, {responseType: 'text'}).subscribe((res : any) => {
+  //      localStorage.setItem('token', res); 
+  //      this.Token = res;
+  //      this.http.get(environment.apiUrl + '/api/currentuser').subscribe((res : User) => {
+  //        this.User = res;
+  //        this.US.setUser(res);
+  //        localStorage.setItem('user', JSON.stringify(res)); 
+  //        this.Password = undefined;
+  //      })
+  //     //  this.router.navigate(['']);
+  //     })
+  // }
 
   logOut() : void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.User = undefined;
     this.US.setUser(undefined);
-    this.User = this.US.getUser();
+    this.router.navigate(['login']);
   }
 }

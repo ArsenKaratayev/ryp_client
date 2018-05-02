@@ -1,15 +1,15 @@
-export enum UserRole {
-    mg,
-    or,
-    op
-}
+// export enum UserRole {
+//     mg,
+//     or,
+//     op
+// }
 export class User {
-    id : number;
+    id : string;
     name : string;
     password : string;
-    role : UserRole;
+    role : string;
 
-    constructor(name : string, password : string, role : UserRole) {
+    constructor(name : string, password : string, role : string) {
         this.name = name;
         this.password = password;
         this.role = role;

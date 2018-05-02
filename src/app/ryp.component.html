@@ -1,28 +1,11 @@
 <div style="height: 100%; background-color: #e7eaec;">
-    
+
     <!--PAGE HEADER-->
     <div style="width: 100%; display: inline-block; background-color: #ffffff; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
         <div style="float: left; padding-top: 17px; padding-bottom: 17px;">РУП</div>
-        <div style="float: right; padding-top: 19px;">
-            <div class="select-style" style="width: 90px; font-size: 14px;">
-                <select [(ngModel)]="Year" (ngModelChange)="onChangeYear($event)">
-                    <option *ngFor="let y of Years" [value]="y">{{y}}</option>
-                </select>
-            </div>
-        </div>
-        <div style="float: right; font-size: 15px; margin-left: 40px; padding-right: 15px; padding-top: 22px;">Уч. год:</div>
-        <div style="float: right;">
-            <div class="select-style" style="width: 400px; font-size: 14px; padding-top: 19px;">
-                <select [(ngModel)]="Specialty" (ngModelChange)="onChangeSpecialty($event)">
-                    <option *ngFor="let s of Specialtys" [ngValue]="s">{{s.shifr}} - {{s.name}}</option>
-                </select>
-                <!-- {{Specialty | json}} -->
-            </div>
-        </div>
-        <div style="float: right; font-size: 15px; padding-right: 15px; padding-top: 22px;">Специальность:</div>
     </div>
     <!--PAGE CONTENT-->
-    <div *ngIf="update == false" style="width: 100%;">
+    <div style="width: 100%;">
         <div style="width: 1280px; margin: 0 auto; padding-bottom: 50px;">
 
             <!-- 1Box -->
@@ -151,7 +134,7 @@
                     <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Комп.</div>
                     <div style="float: left; width: 70px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">Кред.</div>
                     <div style="float: left; width: 110px; border-right: 1px solid #e7eaec; padding-top: 12px; padding-bottom: 12px; text-align: center;">лк/лб/пр</div>
-                    <div style="float: left; width: 110px; padding-top: 12px; padding-bottom: 12px; text-align: center;">Пререквизит</div>
+                    <div style="float: left; width: 154px; padding-top: 12px; padding-bottom: 12px; text-align: center;">Пререквизит</div>
                 </div>
                 
                 <div *ngIf="semesterNumber != 0" style="min-height: 343px; background-color: #f4f5f6; margin: -5px 0px;">
@@ -166,30 +149,14 @@
                         <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.type.code}}</div>
                         <div style="float: left; width: 70px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.credits}}</div>
                         <div style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">{{s.lec + '/' + s.lab + '/' + s.pr}}</div>
-                        <div *ngIf="s.prerequisites.length == 0" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
-                        <div (mouseenter)="mouseEnter(s.prerequisites)" (mouseleave)="mouseLeave()" *ngIf="s.prerequisites.length != 0" style="float: left; width: 110px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
-                        <div style="float: left; height: 38px; width: 44px; text-align: center; background-color: #B0BEC5;">
-                            <button style="padding-top: 9px;" class="remove" (click)="deleteSubject(s)">
-                                <img src="/assets/images/remove-icon.png" width="12px">
-                            </button>
-                        </div>
+                        <div *ngIf="s.prerequisites.length == 0" style="float: left; width: 154px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">нет</div>
+                        <div (mouseenter)="mouseEnter(s.prerequisites)" (mouseleave)="mouseLeave()" *ngIf="s.prerequisites.length != 0" style="float: left; width: 154px; border-right: 1px solid #f4f5f6; padding-top: 14px; padding-bottom: 14px; text-align: center; margin: -5px 0px;">да</div>
                     </div>
                 </div>
 
                 <!--ОБЩЕЕ КОЛИЧЕСТВО-->
                 <div style="display: inline-block; width: 100%; font-size: 14px; border-top: 1px solid #e7eaec;">
-                    <div style="float: left; padding-top: 16px; padding-bottom: 16px; padding-left: 20px; font-weight: 300;">
-                        Всего кредитов за семестр: <span style="font-weight: 500; padding-left: 5px;">{{semesterCredits}} 
-                        <div style="color: red; padding-left: 10px; float: right;">{{semesterCreditsMessage}}</div></span>
-                    </div>
-                    <div style="float: right; padding-right: 20px; padding-top: 18px;">
-                        <button (click)="openDialog()" class="add-teacher-button" style="outline: none;">
-                            <div style="display: inline-block;">
-                                <div style="float: left;"><img src="/assets/images/add-icon.png" width="18px"></div>
-                                <div style="padding-left: 10px; float: left; padding-top: 1px;">ДОБАВИТЬ ДИСЦИПЛИНУ</div>
-                            </div>
-                        </button>
-                    </div>
+                    <div style="float: left; padding-top: 16px; padding-bottom: 16px; padding-left: 20px; font-weight: 300;">Всего кредитов за семестр: <span style="font-weight: 500; padding-left: 5px;">{{semesterCredits}}</span></div>
                 </div>
             </div>
 
@@ -198,20 +165,11 @@
                 <!--CONTROL BUTTONS-->
                 <div style="display: inline-block; width: 100%; margin-top: 15px;">
                     <div style="float: right; margin-right: 15px;">
-                        <button (click)="save()" class="control-button2">Сохранить изменения</button>
-                    </div>
-                    <div style="float: right; margin-right: 15px;">
-                        <a routerLink="/" class="btn control-button2">Вернуться к списку</a>
+                        <button (click)="goToPrint()" class="control-button">Свобдная таблица</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div *ngIf="update == true && prototype == undefined">
-        <h1 style="text-align:center">Такой РУП уже создан!</h1>
-    </div>
-    <div *ngIf="update == true && prototype == true">
-        <h1 style="text-align:center">Такой прототип РУПа уже создан!</h1>
     </div>
 </div>
 

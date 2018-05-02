@@ -5,21 +5,23 @@ import { Specialty } from './Specialty';
 import { UserService } from './user.service';
 import { User } from './User';
 import { environment } from '../environments/environment';
+import { DataService } from './data.service';
 
 @Component({
-    selector: 'createUser',
+    selector: 'editUser',
     templateUrl: './createUser.component.html',
     styleUrls: ['./app.component.css']
 })
-export class CreateUserComponent implements OnInit {
-    constructor(private http: HttpClient, private router: Router, private US : UserService) {}
+export class EditUserComponent implements OnInit {
+    constructor(private http: HttpClient, private router: Router, private US : UserService, private DS : DataService) {}
 
-    Name : string;
+    Name : string = this.DS.getUser().name;
     Password : string;
     RePassword : string;
-    Role : string;
+    Role : string = this.DS.getUser().role;
 
     ngOnInit(): void {
+        console.log(this.DS.getUser().password)
         if (this.US.getUser().role != 'Admin') {
             this.router.navigate(['']);
         }
@@ -30,7 +32,7 @@ export class CreateUserComponent implements OnInit {
             alert('Неверный пароль при подтверждении');
         } else {
             this.http
-            .post(environment.apiUrl + '/api/users', 
+            .put(environment.apiUrl + '/api/users/' + this.DS.getUser().id, 
                 new User(this.Name, this.Password, this.Role))
             .subscribe(() => {
                 this.router.navigate(['/userList']);

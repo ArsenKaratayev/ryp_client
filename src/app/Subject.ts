@@ -19,37 +19,31 @@ export class SubjectType {
         }
     }
 }
-export class SubjectHours {
-    lec : number;
-    lab : number;
-    pr : number;
 
-    constructor(lec : number, lab : number, pr : number) {
-        this.lec = lec;
-        this.lab = lab;
-        this.pr = pr;
-    }
-}
 export class Subject {
     id :  number;
     name : string;
     type : SubjectType;
-    hours : SubjectHours;
+    lec : number;
+    lab : number;
+    pr : number;
     credits : number;
     shifr : string;
     prerequisites : Subject[] = [];
-    user : User;
+    userId : string;
     // date : string;
 
-    constructor(name : string, type : SubjectType, hours : SubjectHours, shifr : string, pre : Subject[], user : User) {
+    constructor(name : string, type : SubjectType, lec : number, lab : number, pr : number, shifr : string, pre : Subject[], user : string) {
         this.id;
         this.name = name;
         this.type = type;
-        this.hours = hours;
-        this.credits = hours.lec+hours.lab+hours.pr;
+        this.lec = lec;
+        this.lab = lab;
+        this.pr = pr;
+        this.credits = lec + lab + pr;
         this.shifr = shifr;
         this.prerequisites = pre;
-        this.user = user;
+        this.userId = user;
         // this.date = date.toLocaleDateString();
     }
 }

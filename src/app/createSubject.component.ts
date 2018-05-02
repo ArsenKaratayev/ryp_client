@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SubjectHours, SubjectType, Subject } from './Subject';
+import { SubjectType, Subject } from './Subject';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { AddSubjectDialog } from './createRyp.component';
 import { UserService } from './user.service';
 import { User } from './User';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'createSubject',
@@ -38,7 +39,7 @@ export class CreateSubjectComponent implements OnInit {
 }
 
   loadSubjects() : void {
-    this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
+    this.http.get(environment.apiUrl + '/api/subjects').subscribe((data : Subject[]) => { 
         this.Subjects = data;       
     })
   }
@@ -58,15 +59,27 @@ export class CreateSubjectComponent implements OnInit {
 
   save() : void {
     if(this.Name == null) {
-        alert('Введите название предмета!');
-      return;
+      alert('Введите название предмета');
+    } else if(this.Lec + this.Lab + this.Pr == 0) {
+      alert('Неверное количество кредитов');
+    } else if(this.Shifr == null) {
+      alert('Введите шифр предмета');
+    } else if(this.Type == null) {
+      alert('Выберите тип предмета');
+    } else if(this.Lec == null) {
+      alert('Введите количество лекций');
+    } else if(this.Lab == null) {
+      alert('Введите количество лабораторных');
+    } else if(this.Pr == null) {
+      alert('Введите количество практик');
     } else {
-        this.http
-        .post('http://localhost:5001/api/subjects', 
-            new Subject(this.Name, new SubjectType(this.Type), new SubjectHours(this.Lec, this.Lab, this.Pr), this.Shifr, this.Prerequisites, this.US.getUser()))
-        .subscribe(() => {
-          console.log('here!');
-        })
+      this.http
+      .post(environment.apiUrl + '/api/subjects', 
+          new Subject(this.Name, new SubjectType(this.Type), this.Lec, this.Lab, this.Pr, this.Shifr, this.Prerequisites, this.US.getUser().id),
+          {responseType: 'text'})
+      .subscribe(() => {
+        this.router.navigate(['/subjectList']);
+      })
     }
   }
 }

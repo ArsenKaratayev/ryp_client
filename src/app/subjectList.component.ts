@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SubjectHours, SubjectType, Subject } from './Subject';
+import { SubjectType, Subject } from './Subject';
 import { Router } from '@angular/router';
 import { ElectiveGroup } from './ElectiveGroup';
 import { UserService } from './user.service';
 import { User } from './User';
 import { DataService } from './data.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'subjectList',
@@ -22,18 +23,48 @@ export class SubjectListComponent implements OnInit {
   ReqEl : boolean = true;
   Pre : Subject[] = [];
   showPre : boolean = false;
-  user : User = this.US.getUser();
+  user : string = this.US.getUser().id;
 
   loadSubjects() : void {
-    this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
+    this.http.get(environment.apiUrl + '/api/subjects')
+    .catch((res : any) => {
+      if (res.status == 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          this.US.setUser(undefined);
+          return window.location.href = "http://localhost:4200";
+      }   
+    })
+    .subscribe((data : Subject[]) => { 
       this.Subjects = data;
       this.loadElectives();
     })
   }
 
   loadElectives() : void {
-    this.http.get('http://localhost:5001/api/electivegroups').subscribe((data : ElectiveGroup[]) => { 
+    this.http.get(environment.apiUrl + '/api/electivegroups')
+    .catch((res : any) => {
+      if (res.status == 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          this.US.setUser(undefined);
+          return window.location.href = "http://localhost:4200";
+      }   
+    })
+    .subscribe((data : ElectiveGroup[]) => { 
       this.Electives = data;
+      for (let i = 0; i < this.Electives.length; i++) {
+        var arr = [];
+        this.Electives[i].prerequisites = [];
+        for (let k = 0; k < this.Electives[i].subjects.length; k++) {
+          for (let j = 0; j < this.Electives[i].subjects[k].prerequisites.length; j++) {
+            if (arr.indexOf(this.Electives[i].subjects[k].prerequisites[j].id) == -1) {
+                arr.push(this.Electives[i].subjects[k].prerequisites[j])
+            }
+          }
+        }
+        this.Electives[i].prerequisites = arr;
+      }
     })
   }
 
@@ -52,10 +83,11 @@ export class SubjectListComponent implements OnInit {
 
   ngOnInit() : void {
     this.loadSubjects();
+    
   }
 
   deleteSubject(s : Subject) : void {
-    this.http.delete('http://localhost:5001/api/subjects/' + s.id).subscribe(() => {
+    this.http.delete(environment.apiUrl + '/api/subjects/' + s.id).subscribe(() => {
       this.ngOnInit();
     })
   }
@@ -66,7 +98,7 @@ export class SubjectListComponent implements OnInit {
   }
 
   deleteElective(e : ElectiveGroup) : void {
-    this.http.delete('http://localhost:5001/api/electivegroups/' + e.id).subscribe(() => {
+    this.http.delete(environment.apiUrl + '/api/electivegroups/' + e.id).subscribe(() => {
       this.ngOnInit();
     })
   }
@@ -74,5 +106,12 @@ export class SubjectListComponent implements OnInit {
   updateElective(s : ElectiveGroup) : void {
     this.DS.setElective(s);
     this.router.navigate(['/editElective']);
+  }
+
+  createSubject() : void {
+    this.router.navigate(['/createSubject']);
+  }
+  createElectiveGroup() : void {
+    this.router.navigate(['/createElective']);
   }
 }

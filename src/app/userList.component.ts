@@ -4,6 +4,7 @@ import { User } from './User';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { DataService } from './data.service';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'userList',
@@ -16,14 +17,17 @@ export class UserListComponent implements OnInit {
     Users : User[] = [];
 
     ngOnInit(): void {
-        this.http.get('http://localhost:5001/api/users').subscribe((data : User[]) => { 
+        if (this.US.getUser().role != 'Admin') {
+            this.router.navigate(['']);
+        }
+        this.http.get(environment.apiUrl + '/api/users').subscribe((data : User[]) => { 
             this.Users = data;
             this.Users.splice(this.Users.map((el)=>el.role).indexOf(this.US.getUser().role), 1);
         })
     }
 
     deleteUser(u : User) : void {
-        this.http.delete('http://localhost:5001/api/users/' + u.id).subscribe(() => {
+        this.http.delete(environment.apiUrl + '/api/users/' + u.id).subscribe(() => {
             this.ngOnInit();
         })
     }
@@ -31,5 +35,9 @@ export class UserListComponent implements OnInit {
     updateUser(u : User) : void {
         this.DS.setUser(u);
         this.router.navigate(['/editUser']);
+    }
+
+    createUser() : void {
+        this.router.navigate(['/createUser']);
     }
 }

@@ -1,15 +1,35 @@
-<div class="container">
-    <h2>Специальность</h2>
-    <div class="form-group">
-        <div>Название</div>
-        <input [(ngModel)]="Name" type="text" class="form-control">
+<div style="min-height: 895px; background-color: #e7eaec; background-size: 100%;">
+    <div style="width: 100%; display: inline-block; background-color: #ffffff; padding-left: 60px; padding-right: 60px; font-size: 22px; font-weight: 300; margin: 0 -2px;">
+        <div style="float: left; padding-top: 17px; padding-bottom: 17px;">Добавить специальность</div>
     </div>
-    <div class="form-group">
-        <div>Шифр</div>
-        <input [(ngModel)]="Shifr" type="text" class="form-control">
-    </div>
-    <div class="form-group">
-        <input (click)="save()" type="submit" value="Сохранить" class="btn btn-default">
-        <a routerLink="/specialtyList" routerLinkActive="active" class="btn btn-default">К списку</a>
+    <div class="container" style="padding-left: 35px;">
+        <div class="form-group" style="padding-top: 30px; display: inline-block;">
+            <div style="display: inline-block; padding-right: 150px;">Название</div>
+            <input [(ngModel)]="Name" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <div style="display: inline-block; padding-right: 175px;">Шифр</div>
+            <input [(ngModel)]="Shifr" type="text" class="form-control">
+        </div>
+        <div class="form-group" style="float: right; margin-right: 31px;">
+            <input (click)="save()" type="submit" value="Сохранить" class="btn btn-default" style="width: 150px;">
+            <a routerLink="/specialtyList" routerLinkActive="active" class="btn btn-default" style="width: 150px;">К списку</a>
+        </div>
     </div>
 </div>
+
+
+<style>
+    .container {
+        margin-top: 30px;
+        background-color: #ffffff;
+        width : 860px;
+        padding-bottom: 30px;
+        font-size: 120%;
+    }
+    .form-control {
+        width : 550px;
+        text-align: center;
+        display: inline;
+    }
+</style>

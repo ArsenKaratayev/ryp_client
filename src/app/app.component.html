@@ -1,9 +1,3 @@
-<nav *ngIf="User!=undefined">
-    <a routerLink="/" routerLinkActive="active">Главная</a>
-    <a routerLink="/subjectList" routerLinkActive="active">Предметы</a>
-    <a routerLink="/specialtyList" routerLinkActive="active">Специальности</a>
-    <a *ngIf="User.role==0" routerLink="/userList" routerLinkActive="active">Пользователи</a>
-</nav>
 <div style="width: 100%; background-color: #014d99;">
     <div style="display: inline-block; width: 100%; padding-top: 10px; padding-bottom: 10px;">
         <div style="float: left; width: 50%; padding-left: 20px;">
@@ -14,32 +8,24 @@
                 <div style="float: left; padding-left: 7px; padding-top: 5px;">
                     <img src="/assets/images/name.png" height="40px">
                 </div>
+                <div style="float: left; padding-left: 27px; padding-top: 15px; font-size: 140%;" *ngIf="User!=undefined">
+                    <a routerLink="/" routerLinkActive="active" style="color:#e7eaec; cursor: pointer;">РУПы</a>
+                    <a *ngIf="User.role!='Admin'" routerLink="/subjectList" routerLinkActive="active" style="color:#e7eaec; cursor: pointer; padding-left: 10px;">Предметы</a>
+                    <a *ngIf="User.role!='Admin'" routerLink="/specialtyList" routerLinkActive="active" style="color:#e7eaec; cursor: pointer; padding-left: 10px;">Специальности</a>
+                    <a *ngIf="User.role=='Admin'" routerLink="/userList" routerLinkActive="active" style="color:#e7eaec; cursor: pointer; padding-left: 10px;">Пользователи</a>
+                </div>
             </div>
         </div>
         <div *ngIf="User!=undefined" style="float: right; width: 50%; text-align: right; padding-right: 25px; color: #ffffff; padding-top: 2px;">
-            <div>{{User.name}}</div>
-            <div (click)="logOut()" style="font-size: 13px; font-weight: 200; opacity: 0.7;"><a style="color:#ffffff; cursor: pointer;">Выйти</a></div>
-            <!-- <div style="font-size: 13px; font-weight: 200; opacity: 0.7;">Кафедра КиПИ</div> -->
+            <div style="font-size: 125%;">{{User.name}}</div>
+            <div (click)="logOut()" style="font-size: 13px; font-weight: 200; opacity: 0.7;">
+                <a style="color:#ffffff; cursor: pointer;">Выйти</a>
+            </div>
         </div>
     </div>
 </div>
-<!-- <h1 style="text-align:center;">Зарегис ИУП</h1> -->
-<router-outlet *ngIf="User!=undefined"></router-outlet>
+<router-outlet></router-outlet>
 
-<div *ngIf="User==undefined" class="container">
-    <h2 style="color : #014d99">Вход</h2>
-    <div class="form-group">
-        <div>Введите имя</div>
-        <input [(ngModel)]="Name" type="text" class="form-control">
-    </div>
-    <div class="form-group">
-        <div>Введите пароль</div>
-        <input [(ngModel)]="Password" type="password" class="form-control">
-    </div>
-    <div class="form-group">
-        <input (click)="login()" type="submit" value="Войти" class="btn btn-primary wd">
-    </div>
-</div>
 
 <style>
     .container {

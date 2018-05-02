@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Specialty } from './Specialty';
 import { UserService } from './user.service';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'createSpecialty',
@@ -17,14 +18,15 @@ export class CreateSpecialtyComponent {
 
     save() : void {
         if(this.Name == null) {
-            alert('Введите название специальности!');
-            return;
+            alert('Введите название специальности');
+        } else if(this.Shifr == null) {
+            alert('Введите шифр специальности');
         } else {
             this.http
-            .post('http://localhost:5001/api/specialtys', 
-                new Specialty(this.Name, this.Shifr, this.US.getUser()))
+            .post(environment.apiUrl + '/api/specialtys', 
+                new Specialty(this.Name, this.Shifr, this.US.getUser().id), {responseType: 'text'})
             .subscribe(() => {
-                console.log('here!');
+                this.router.navigate(['/specialtyList']);
             })
         }
     }

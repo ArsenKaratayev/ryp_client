@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SubjectHours, SubjectType, Subject } from './Subject';
+import { SubjectType, Subject } from './Subject';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { AddSubjectDialog } from './createRyp.component';
 import { ElectiveGroup } from './ElectiveGroup';
 import { UserService } from './user.service';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'createElective',
@@ -24,6 +25,7 @@ export class CreateElectiveComponent implements OnInit {
     ConstSubjects : Subject[] = [];
 
     openDialog(): void {
+        console.log(this.Subjects)
         let dialogRef = this.dialog.open(AddSubjectDialog, {    
             width: '750px',
             data: { Subjects : this.Subjects, type : false }
@@ -31,15 +33,15 @@ export class CreateElectiveComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result != null) {
-            this.addSubject(result);
+                this.addSubject(result);
             }
         });
     }
 
     loadSubjects() : void {
-        this.http.get('http://localhost:5001/api/subjects').subscribe((data : Subject[]) => { 
-            this.Subjects = data;   
-            this.ConstSubjects = data;    
+        this.http.get(environment.apiUrl + '/api/subjects').subscribe((data : Subject[]) => { 
+            this.ConstSubjects = data;  
+            this.Subjects = this.ConstSubjects;
         })
     }
 
@@ -56,38 +58,39 @@ export class CreateElectiveComponent implements OnInit {
     }
 
     deleteSubject(s : Subject) : void {
-        this.Subjects.push(s);
+        this.Subjects = this.ConstSubjects;
+        this.ConstSubjects.push(s);
         this.Electives.splice(this.Electives.indexOf(s), 1);
-        if(this.Electives.length == 0) {
-            this.Type = undefined;
-            this.Pr = undefined;
-        }
+        this.filterSubjects();
     }
 
     filterSubjects() : void {
-        var arr = [];
-        
-        for (let i = 0; i < this.Subjects.length; i++) {
-            console.log(this.Subjects[i].type.name, this.Type.name)
-            if (this.Subjects[i].type.name == this.Type.name && this.Subjects[i].credits == this.Pr) {
-                arr.push(this.Subjects[i]);
+        if (this.Electives.length == 0) {
+            this.Type = undefined;
+            this.Pr = undefined;
+        } else {
+            var arr = [];
+            for (let i = 0; i < this.Subjects.length; i++) {
+                if (this.Subjects[i].type.name == this.Type.name && this.Subjects[i].credits == this.Pr) {
+                    arr.push(this.Subjects[i]);
+                }
             }
+            this.Subjects = arr;
         }
-        this.Subjects = arr;
     }
 
     save() : void {
-        // var a = new ElectiveGroup(this.Name, this.Type, new SubjectHours(0, 0, this.Pr), this.Shifr, this.Electives);
-        // console.log(a)
         if(this.Name == null) {
-            alert('Введите название предмета!');
-            return;
+            alert('Введите название элективной группы');
+        } else if(this.Shifr == null) {
+            alert('Введите шифр элективной группы');
         } else {
             this.http
-                .post('http://localhost:5001/api/electivegroups', 
-                    new ElectiveGroup(this.Name, this.Type, new SubjectHours(0, 0, this.Pr), this.Shifr, this.Electives, this.US.getUser()))
+                .post(environment.apiUrl + '/api/electivegroups', 
+                    new ElectiveGroup(this.Name, this.Type, this.Pr, this.Shifr, this.Electives, this.US.getUser().id),
+                    {responseType: 'text'})
                 .subscribe(() => {
-                    console.log('here!');
+                    this.router.navigate(['/subjectList']);
             })
         }
     }
